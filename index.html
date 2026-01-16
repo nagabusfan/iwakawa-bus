@@ -5,23 +5,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>岩川県交通</title>
     <style>
-        body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; margin: 0; background-color: #f9f9f9; color: #333; overflow-x: hidden; }
-        header { background: white; border-top: 5px solid #0054a6; border-bottom: 1px solid #ccc; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        /* 全体の設定 */
+        body { 
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; 
+            margin: 0; 
+            background-color: #f3f0f9; /* 背景：薄紫 */
+            color: #333; 
+            overflow-x: hidden; 
+        }
+        
+        /* ヘッダー */
+        header { 
+            background: white; 
+            border-top: 5px solid #0054a6; 
+            border-bottom: 1px solid #ccc; 
+            padding: 10px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+        }
         .header-left { display: flex; align-items: center; gap: 15px; }
-        .menu-button { background: #0054a6; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 14px; }
+        
+        /* MENUボタン：深緑 */
+        .menu-button { 
+            background: #2e7d32; 
+            color: white; 
+            border: none; 
+            padding: 8px 12px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 14px; 
+        }
         .logo h1 { color: #0054a6; margin: 0; font-size: 24px; border-left: 8px solid #0054a6; padding-left: 10px; }
-        .sidebar { position: fixed; top: 0; left: 0; width: 250px; height: 100%; background: white; box-shadow: 2px 0 10px rgba(0,0,0,0.2); padding: 80px 20px 20px 20px; z-index: 1500; transform: translateX(-110%); transition: transform 0.3s ease; }
+
+        /* サイドバー（最初は隠れている） */
+        .sidebar { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 250px; 
+            height: 100%; 
+            background: white; 
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1); 
+            padding: 80px 20px 20px 20px; 
+            z-index: 1500; 
+            transform: translateX(-110%); 
+            transition: transform 0.3s ease; 
+        }
         .sidebar.active { transform: translateX(0); }
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1400; }
+
+        /* 背景の暗幕 */
+        .overlay { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.3); 
+            z-index: 1400; 
+        }
         .overlay.active { display: block; }
+
+        /* メインレイアウト */
         .container { max-width: 1000px; margin: 20px auto; padding: 0 10px; }
-        .main-content { background: white; border: 1px solid #ccc; padding: 20px; }
-        .menu-item { background: white; border: 1px solid #ccc; margin-bottom: 5px; padding: 10px; font-weight: bold; color: #0054a6; cursor: pointer; }
-        .search-box { background: #00a0e9; color: white; padding: 10px; margin-bottom: 20px; border-radius: 5px; }
+        .main-content { 
+            background: white; 
+            border: 1px solid #d1c4e9; 
+            padding: 20px; 
+            border-radius: 8px; 
+        }
+
+        /* サイドバーの中のメニュー：深緑 */
+        .menu-item { 
+            background: white; 
+            border: 1px solid #2e7d32; 
+            margin-bottom: 8px; 
+            padding: 12px; 
+            font-weight: bold; 
+            color: #2e7d32; 
+            cursor: pointer; 
+            border-radius: 5px;
+            transition: 0.2s;
+        }
+        .menu-item:hover { background: #e8f5e9; }
+
+        /* 検索ボックス：紫 */
+        .search-box { 
+            background: #7e57c2; 
+            color: white; 
+            padding: 10px; 
+            margin-bottom: 20px; 
+            border-radius: 5px; 
+        }
+
+        /* お知らせアイテム */
         .news-item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; align-items: flex-start; gap: 10px; }
         .tag { color: white; font-size: 10px; padding: 2px 5px; border-radius: 3px; font-weight: bold; }
         .time-display { text-align: right; font-size: 12px; color: #666; width: 150px; }
-        @keyframes scroll-text { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+
+        /* テロップアニメーション */
+        @keyframes scroll-text { 
+            0% { transform: translateX(0); } 
+            100% { transform: translateX(-100%); } 
+        }
     </style>
 </head>
 <body>
@@ -45,22 +136,28 @@
         <div class="menu-item">■ 求人情報</div>
         <div class="menu-item" id="close-btn">■ 閉じる ×</div>
     </div>
+
     <div class="main-content">
-        <div style="background: #e6f7f8; border: 2px solid #00a0e9; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
-            <h3 style="margin:0 0 5px 0; color:#0071a0; font-size: 16px;">現在の運行状況</h3>
+        <div style="background: #f3f0f9; border: 2px solid #7e57c2; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
+            <h3 style="margin:0 0 5px 0; color:#7e57c2; font-size: 16px;">現在の運行状況</h3>
             <div style="background: white; border: 1px solid #ccc; overflow: hidden; white-space: nowrap; padding: 5px;">
                 <div style="display: inline-block; padding-left: 100%; animation: scroll-text 15s linear infinite; color: #333; font-weight: bold;">
                     【平常運行】 全線で平常通り運行しております。今日も岩川県交通をご利用いただきありがとうございます。
                 </div>
             </div>
         </div>
-        <h3 style="border-bottom: 2px solid #00a0e9; color: #00a0e9; padding-bottom: 5px; margin-top: 0;">新着情報</h3>
+
+        <h3 style="border-bottom: 2px solid #7e57c2; color: #7e57c2; padding-bottom: 5px; margin-top: 0;">新着情報</h3>
         <div id="news-list">お知らせを読み込み中...</div>
     </div>
 </div>
 
+<footer>
+    <p style="text-align:center; font-size:10px; color:#999; margin-top: 20px;">&copy; 2026 Iwakawa Prefectural Transport.</p>
+</footer>
+
 <script>
-    // 1. 時計の機能
+    // 時計の更新
     function updateTime() {
         const timeDisplay = document.getElementById('current-time');
         if (timeDisplay) {
@@ -70,7 +167,7 @@
         }
     }
 
-    // 2. お知らせを読み込む機能
+    // お知らせの読み込み
     function loadNews() {
         const newsList = document.getElementById('news-list');
         fetch('news.json')
@@ -92,9 +189,8 @@
             });
     }
 
-    // 3. 画面が読み込まれたらすべてを動かす
+    // ページ読み込み完了時の処理
     window.onload = function() {
-        // メニューのボタン
         const menuBtn = document.getElementById('menu-btn');
         const closeBtn = document.getElementById('close-btn');
         const sidebar = document.getElementById('sidebar');
@@ -113,11 +209,8 @@
             overlay.onclick = close;
         }
 
-        // 時計スタート
         setInterval(updateTime, 1000);
         updateTime();
-
-        // お知らせ読み込みスタート
         loadNews();
     };
 </script>

@@ -41,4 +41,96 @@
         <h3 style="border-bottom: 2px solid #7e57c2; color: #7e57c2; padding-bottom: 5px; margin-top: 0;">新着情報</h3>
         <div id="news-list">お知らせを読み込み中...</div>
 
-        <h3 style="border-bottom: 2px solid #2e7d32; color: #2e7d32; padding-bottom: 5px; margin-top: 40px;">岩川交通 公式マガ
+        <h3 style="border-bottom: 2px solid #2e7d32; color: #2e7d32; padding-bottom: 5px; margin-top: 40px;">岩川交通 公式マガジン</h3>
+        <div class="article-section">
+            
+            <div class="article-card" onclick="location.href='articles/how-to-ride.html'">
+                <div class="article-img">🚌</div>
+                <div class="article-content">
+                    <h4>岩川県交通の乗り方ガイド</h4>
+                    <p>初めて岩川を訪れる方へ。乗車から運賃の支払い、降車までを完全解説！</p>
+                </div>
+            </div>
+
+            <div class="article-card" onclick="location.href='articles/new-bus-2026.html'">
+                <div class="article-img">✨</div>
+                <div class="article-content">
+                    <h4>新型車両、ここが凄い！</h4>
+                    <p>今月導入された最新鋭の大型ノンステップバス。その驚きの機能をチェック！</p>
+                </div>
+            </div>
+
+            <div class="article-card" onclick="location.href='articles/game-trivia.html'">
+                <div class="article-img">💡</div>
+                <div class="article-content">
+                    <h4>岩川県交通の小ネタ集</h4>
+                    <p>ゲーム内の隠し要素や、知っていると少し便利な豆知識を紹介します。</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p style="text-align:center; font-size:10px; color:#999; margin-top: 40px;">&copy; 2026 Iwakawa Prefectural Transport (Roblox).</p>
+</footer>
+
+<script>
+    // 時計更新
+    function updateTime() {
+        const timeDisplay = document.getElementById('current-time');
+        if (timeDisplay) {
+            const now = new Date();
+            const options = { timeZone: 'Asia/Tokyo', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            timeDisplay.innerText = "JST " + now.toLocaleTimeString('ja-JP', options);
+        }
+    }
+
+    // お知らせ読み込み
+    function loadNews() {
+        const newsList = document.getElementById('news-list');
+        fetch('news.json')
+            .then(response => response.json())
+            .then(data => {
+                if (newsList) {
+                    newsList.innerHTML = '';
+                    data.forEach(item => {
+                        const newsItem = document.createElement('div');
+                        newsItem.className = 'news-item';
+                        newsItem.innerHTML = `<span class="tag" style="background:${item.tagColor}">${item.tag}</span><a href="${item.url}" style="text-decoration: none; color: #0054a6; margin-left:10px;">${item.title}</a>`;
+                        newsList.appendChild(newsItem);
+                    });
+                }
+            })
+            .catch(error => {
+                if (newsList) newsList.innerHTML = 'お知らせの読み込みに失敗しました。';
+            });
+    }
+
+    window.onload = function() {
+        const menuBtn = document.getElementById('menu-btn');
+        const closeBtn = document.getElementById('close-btn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        if (menuBtn && sidebar && overlay) {
+            menuBtn.onclick = function() {
+                sidebar.classList.add('active');
+                overlay.classList.add('active');
+            };
+            const close = function() {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            };
+            if (closeBtn) closeBtn.onclick = close;
+            overlay.onclick = close;
+        }
+
+        setInterval(updateTime, 1000);
+        updateTime();
+        loadNews();
+    };
+</script>
+</body>
+</html>

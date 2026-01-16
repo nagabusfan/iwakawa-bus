@@ -56,12 +56,22 @@
         <div class="menu-item">■ 求人情報</div>
         <div class="menu-item">■ お問い合わせ</div>
     </div>
-
-    <div class="main-content">
-        <div class="status-box">
-            <h3 style="margin:0; color:#d00;">現在の運行状況</h3>
-            <p id="status-text" style="margin:5px 0 0 0; font-weight:bold;">【平常運行】全線で平常通り運行しております。</p>
+    
+<div style="background: #e6f7f8; border: 2px solid #00a0e9; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
+            <h3 style="margin:0 0 5px 0; color:#0071a0; font-size: 16px;">現在の運行状況</h3>
+            <div style="background: white; border: 1px solid #ccc; overflow: hidden; white-space: nowrap; padding: 5px;">
+                <div style="display: inline-block; padding-left: 100%; animation: scroll-text 15s linear infinite; color: #333; font-weight: bold;">
+                    【平常運行】 全線で平常通り運行しております。今日も岩川県交通をご利用いただきありがとうございます。
+                </div>
+            </div>
         </div>
+
+        <style>
+            @keyframes scroll-text {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-100%); }
+            }
+        </style>
 
         <h3 style="border-bottom: 2px solid #00a0e9; color: #00a0e9; padding-bottom: 5px;">新着情報</h3>
         

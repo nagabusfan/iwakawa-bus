@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>岩川県交通</title>
+    <title>岩川県交通 | 公式サイト</title>
     <style>
-        /* 全体の設定 */
+        /* --- 全体のデザイン --- */
         body { 
             font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; 
             margin: 0; 
@@ -14,7 +14,7 @@
             overflow-x: hidden; 
         }
         
-        /* ヘッダー */
+        /* --- ヘッダー --- */
         header { 
             background: white; 
             border-top: 5px solid #0054a6; 
@@ -29,7 +29,7 @@
         }
         .header-left { display: flex; align-items: center; gap: 15px; }
         
-        /* MENUボタン：深緑 */
+        /* MENUボタン：深緑（ホバーで少し大きく） */
         .menu-button { 
             background: #2e7d32; 
             color: white; 
@@ -39,10 +39,13 @@
             cursor: pointer; 
             font-weight: bold; 
             font-size: 14px; 
+            transition: 0.3s;
         }
+        .menu-button:hover { background: #1b5e20; transform: scale(1.05); }
+
         .logo h1 { color: #0054a6; margin: 0; font-size: 24px; border-left: 8px solid #0054a6; padding-left: 10px; }
 
-        /* サイドバー（最初は隠れている） */
+        /* --- サイドバー（隠しメニュー） --- */
         .sidebar { 
             position: fixed; 
             top: 0; 
@@ -71,7 +74,7 @@
         }
         .overlay.active { display: block; }
 
-        /* メインレイアウト */
+        /* --- メインレイアウト --- */
         .container { max-width: 1000px; margin: 20px auto; padding: 0 10px; }
         .main-content { 
             background: white; 
@@ -80,21 +83,36 @@
             border-radius: 8px; 
         }
 
-        /* サイドバーの中のメニュー：深緑 */
+        /* --- メニューボタン：ホバーアニメーション --- */
         .menu-item { 
             background: white; 
             border: 1px solid #2e7d32; 
-            margin-bottom: 8px; 
+            margin-bottom: 12px; 
             padding: 12px; 
             font-weight: bold; 
             color: #2e7d32; 
             cursor: pointer; 
-            border-radius: 5px;
-            transition: 0.2s;
+            border-radius: 8px;
+            transition: all 0.3s ease; /* 滑らかに動かす */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: block;
+            text-decoration: none;
+            text-align: left;
         }
-        .menu-item:hover { background: #e8f5e9; }
+        /* マウスを乗せたとき：上に浮いて影が強くなる */
+        .menu-item:hover { 
+            background: #e8f5e9; 
+            transform: translateY(-3px); 
+            box-shadow: 0 6px 12px rgba(46, 125, 50, 0.2); 
+            border-color: #1b5e20;
+        }
+        /* 押したとき：ポチッと沈む */
+        .menu-item:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
 
-        /* 検索ボックス：紫 */
+        /* 検索ボックス */
         .search-box { 
             background: #7e57c2; 
             color: white; 
@@ -133,7 +151,7 @@
         <div class="menu-item" onclick="location.href='index.html'">■ HOME</div>
         <div class="menu-item">■ 路線バス</div>
         <div class="menu-item">■ 高速バス</div>
-        <div class="menu-item">■ 求人情報</div>
+        <div class="menu-item" onclick="location.href='newsfolder/news00003.html'">■ 求人情報</div>
         <div class="menu-item" id="close-btn">■ 閉じる ×</div>
     </div>
 
@@ -157,7 +175,7 @@
 </footer>
 
 <script>
-    // 時計の更新
+    // 1. 時計の機能
     function updateTime() {
         const timeDisplay = document.getElementById('current-time');
         if (timeDisplay) {
@@ -167,7 +185,7 @@
         }
     }
 
-    // お知らせの読み込み
+    // 2. お知らせの読み込み（JSON）
     function loadNews() {
         const newsList = document.getElementById('news-list');
         fetch('news.json')
@@ -189,7 +207,7 @@
             });
     }
 
-    // ページ読み込み完了時の処理
+    // 3. 実行（すべて準備ができたら動く）
     window.onload = function() {
         const menuBtn = document.getElementById('menu-btn');
         const closeBtn = document.getElementById('close-btn');

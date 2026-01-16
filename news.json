@@ -1,23 +1,23 @@
 [
   {
-    "date": "2026/01/16",
-    "tag": "お知らせ",
-    "tagColor": "#999",
-    "title": "岩川県交通 公式サイトを公開しました。",
-    "url": "news01.html"
+    "date": "2026/01/18",
+    "tag": "重要",
+    "tagColor": "#d00",
+    "title": "公式Discordサーバーが新しくなりました！",
+    "url": "discord.html"
   },
   {
     "date": "2026/01/17",
     "tag": "採用情報",
     "tagColor": "#f06",
-    "title": "【募集】バス運転士募集中！",
-    "url": "#"
+    "title": "【急募】バス運転士・整備士を募集中です",
+    "url": "recruit.html"
   },
   {
-    "date": "2026/01/18",
+    "date": "2026/01/16",
     "tag": "お知らせ",
     "tagColor": "#999",
-    "title": "公式Discordサーバーについて",
-    "url": "#"
+    "title": "岩川県交通 公式サイトを公開しました。",
+    "url": "news01.html"
   }
 ]

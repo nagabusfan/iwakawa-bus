@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>岩川県交通 | 公式サイト (Roblox)</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -29,64 +30,82 @@
     </div>
 
     <div class="main-content">
-        <div style="background: #f3f0f9; border: 2px solid #7e57c2; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
+        
+        <div style="background: #f3f0f9; border: 2px solid #7e57c2; padding: 10px; margin-bottom: 25px; border-radius: 10px;">
             <h3 style="margin:0 0 5px 0; color:#7e57c2; font-size: 16px;">現在の運行状況</h3>
-            <div style="background: white; border: 1px solid #ccc; overflow: hidden; white-space: nowrap; padding: 5px;">
+            <div style="background: white; border: 1px solid #ccc; overflow: hidden; white-space: nowrap; padding: 5px; border-radius: 5px;">
                 <div style="display: inline-block; padding-left: 100%; animation: scroll-text 15s linear infinite; color: #333; font-weight: bold;">
                     【平常運行】 全線で平常通り運行しております。今日も岩川県交通をご利用いただきありがとうございます。
                 </div>
             </div>
         </div>
 
-        <h3 style="border-bottom: 2px solid #7e57c2; color: #7e57c2; padding-bottom: 5px; margin-top: 0;">新着情報</h3>
-        <div id="news-list">お知らせを読み込み中...</div>
+        <h3 style="border-bottom: 3px solid #7e57c2; color: #7e57c2; padding-bottom: 8px; margin-top: 0; font-weight: 900;">新着情報</h3>
+        <div id="news-list" style="margin-bottom: 40px;">お知らせを読み込み中...</div>
 
         <div class="magazine-section">
             <div class="recommend-header">
                 <h3>おすすめコンテンツ</h3>
             </div>
 
-            <button class="slider-arrow" id="prev-btn">◀</button>
-            <button class="slider-arrow" id="next-btn">▶</button>
+            <button class="slider-arrow" id="prev-btn" style="left: -15px;">◀</button>
+            <button class="slider-arrow" id="next-btn" style="right: -15px;">▶</button>
 
             <div class="slider-container">
                 <div class="slider-wrapper" id="slider-wrapper">
                     <div class="article-card" onclick="location.href='articles/how-to-ride.html'">
                         <div class="article-img">🚌</div>
-                        <div class="article-content"><h4>乗り方ガイド</h4><p>乗車から降車まで詳しく解説！</p></div>
+                        <div class="article-content">
+                            <h4>岩川県交通の乗り方</h4>
+                            <p>Robloxで初めての方も安心！スムーズな乗車方法を詳しく解説します。</p>
+                        </div>
                     </div>
                     <div class="article-card" onclick="location.href='articles/new-bus.html'">
                         <div class="article-img">✨</div>
-                        <div class="article-content"><h4>新車のここが凄い！</h4><p>最新大型バスの機能を徹底解剖。</p></div>
+                        <div class="article-content">
+                            <h4>新型2026モデル登場</h4>
+                            <p>待望の大型ノンステップバス。車いす対応や最新設備をチェック！</p>
+                        </div>
                     </div>
                     <div class="article-card" onclick="location.href='articles/trivia.html'">
                         <div class="article-img">💡</div>
-                        <div class="article-content"><h4>岩川県交通の小ネタ</h4><p>隠しネタや豆知識を公開中。</p></div>
+                        <div class="article-content">
+                            <h4>ゲーム内限定の小ネタ</h4>
+                            <p>マップの端っこにある秘密や、知っていると自慢できる豆知識集。</p>
+                        </div>
                     </div>
                     <div class="article-card" onclick="location.href='articles/safety.html'">
                         <div class="article-img">🛡️</div>
-                        <div class="article-content"><h4>安全へのこだわり</h4><p>安心・安全な運行のために。</p></div>
+                        <div class="article-content">
+                            <h4>安全運行への想い</h4>
+                            <p>岩川県交通が取り組む、事故ゼロ・定時運行のための工夫とは？</p>
+                        </div>
                     </div>
                     <div class="article-card" onclick="location.href='articles/history.html'">
                         <div class="article-img">📂</div>
-                        <div class="article-content"><h4>岩川の歩み</h4><p>創業当時の様子を振り返る。</p></div>
+                        <div class="article-content">
+                            <h4>岩川の歴史を知る</h4>
+                            <p>創業当時の懐かしい車両から、進化を続ける現在の姿までを追います。</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="view-all-container">
-                <a href="articles/list.html" class="view-all-btn">すべてのコンテンツを表示する</a>
+                <a href="articles/list.html" class="view-all-btn">すべてのコンテンツを表示</a>
             </div>
         </div>
     </div>
 </div>
 
 <footer>
-    <p style="text-align:center; font-size:10px; color:#999; margin-top: 40px;">&copy; 2026 Iwakawa Prefectural Transport (Roblox).</p>
+    <p style="text-align:center; font-size:11px; color:#999; margin-top: 50px; letter-spacing: 0.1em;">
+        &copy; 2026 Iwakawa Prefectural Transport (Roblox Official).
+    </p>
 </footer>
 
 <script>
-    // --- 1. スライダーの制御（無限ループ版） ---
+    // --- スライダー制御（無限ループ版） ---
     let currentSlide = 0;
     const wrapper = document.getElementById('slider-wrapper');
     const totalArticles = 5; 
@@ -94,7 +113,7 @@
 
     document.getElementById('next-btn').onclick = function() {
         if (currentSlide >= totalArticles - showCount) {
-            currentSlide = 0; // 端っこまで行ったら最初に戻る
+            currentSlide = 0; // 最後まで行ったら最初に戻る
         } else {
             currentSlide++;
         }
@@ -103,7 +122,7 @@
 
     document.getElementById('prev-btn').onclick = function() {
         if (currentSlide <= 0) {
-            currentSlide = totalArticles - showCount; // 最初なら最後にジャンプ
+            currentSlide = totalArticles - showCount; // 最初なら最後に飛ぶ
         } else {
             currentSlide--;
         }
@@ -115,7 +134,7 @@
         wrapper.style.transform = `translateX(-${move}%)`;
     }
 
-    // --- 2. 日本標準時(JST)の時計更新 ---
+    // --- 時計更新 ---
     function updateTime() {
         const timeDisplay = document.getElementById('current-time');
         if (timeDisplay) {
@@ -125,7 +144,7 @@
         }
     }
 
-    // --- 3. 外部JSONからお知らせを読み込む ---
+    // --- お知らせ読み込み ---
     function loadNews() {
         const newsList = document.getElementById('news-list');
         fetch('news.json')
@@ -136,7 +155,7 @@
                     data.forEach(item => {
                         const newsItem = document.createElement('div');
                         newsItem.className = 'news-item';
-                        newsItem.innerHTML = `<span class="tag" style="background:${item.tagColor}">${item.tag}</span><a href="${item.url}" style="text-decoration: none; color: #0054a6; margin-left:10px;">${item.title}</a>`;
+                        newsItem.innerHTML = `<span class="tag" style="background:${item.tagColor}">${item.tag}</span><a href="${item.url}" style="text-decoration: none; color: #0054a6; margin-left:10px; font-weight:bold;">${item.title}</a>`;
                         newsList.appendChild(newsItem);
                     });
                 }
@@ -146,14 +165,13 @@
             });
     }
 
-    // --- 4. ページ読み込み時の初期設定 ---
+    // --- メイン初期化 ---
     window.onload = function() {
         const menuBtn = document.getElementById('menu-btn');
         const closeBtn = document.getElementById('close-btn');
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
 
-        // サイドバー開閉イベント
         if (menuBtn && sidebar && overlay) {
             menuBtn.onclick = () => { sidebar.classList.add('active'); overlay.classList.add('active'); };
             const close = () => { sidebar.classList.remove('active'); overlay.classList.remove('active'); };

@@ -288,3 +288,111 @@ header {
     background: #7e57c2; /* 岩川カラーの紫に変わる */
     transform: scale(1.05);
 }
+/* --- スライダー全体の枠組み --- */
+.magazine-section {
+    margin-top: 40px;
+    position: relative; /* ボタンを左右に固定するために必要 */
+    padding: 0 50px;    /* ボタンが重ならないように左右に余白を作る */
+}
+
+.recommend-header {
+    border-bottom: 2px solid #2e7d32;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* スライダーの外枠 */
+.slider-container {
+    overflow: hidden;
+}
+
+.slider-wrapper {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); /* より滑らかな動き */
+}
+
+/* --- 記事カード：さらにおしゃれに --- */
+.article-card {
+    min-width: calc(33.333% - 14px);
+    background: white;
+    border: none; /* 線を消して影で表現 */
+    border-radius: 20px; /* もっと丸く、優しく */
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08); /* 柔らかい影 */
+}
+
+/* ホバー：少し拡大＆影を強く */
+.article-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(46, 125, 50, 0.2);
+}
+
+.article-img {
+    width: 100%;
+    height: 160px;
+    background: linear-gradient(135deg, #e0e0e0, #f5f5f5); /* 綺麗なグラデーション */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+}
+
+.article-content {
+    padding: 20px;
+}
+
+.article-content h4 {
+    margin: 0 0 10px 0;
+    color: #2e7d32;
+    font-size: 18px;
+    line-height: 1.4;
+}
+
+/* --- 左右の矢印ボタン：灰色背景・白矢印 --- */
+.slider-arrow {
+    position: absolute;
+    top: 55%; /* カードの真ん中あたりに配置 */
+    transform: translateY(-50%);
+    background: #cccccc; /* 灰色背景 */
+    color: white;       /* 白矢印 */
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    z-index: 10;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* ホバー時に岩川カラー（緑）に変化 */
+.slider-arrow:hover {
+    background: #2e7d32;
+    transform: translateY(-50%) scale(1.1);
+}
+
+#prev-btn { left: 0; }
+#next-btn { right: 0; }
+
+/* 全記事一覧ボタン：さらに丸く */
+.view-all-container { text-align: center; margin-top: 40px; }
+.view-all-btn {
+    display: inline-block;
+    padding: 15px 40px;
+    background: #2e7d32;
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+    transition: 0.3s;
+}
+.view-all-btn:hover { background: #7e57c2; transform: translateY(-3px); }
+

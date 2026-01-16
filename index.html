@@ -112,6 +112,59 @@
         wrapper.style.transform = `translateX(-${move}%)`;
     }
 
+    <script>
+    // --- 1. スライダーの制御（ここを新しいのに書き換え！） ---
+    let currentSlide = 0;
+    const wrapper = document.getElementById('slider-wrapper');
+    const totalArticles = 5; 
+    const showCount = 3;    
+
+    document.getElementById('next-btn').onclick = function() {
+        if (currentSlide >= totalArticles - showCount) {
+            currentSlide = 0; // 最後まで行ったら最初に戻る（無限ループ）
+        } else {
+            currentSlide++;
+        }
+        updateSlider();
+    };
+
+    document.getElementById('prev-btn').onclick = function() {
+        if (currentSlide <= 0) {
+            currentSlide = totalArticles - showCount; // 最初だったら最後に飛ぶ
+        } else {
+            currentSlide--;
+        }
+        updateSlider();
+    };
+
+    function updateSlider() {
+        const move = currentSlide * (100 / showCount);
+        wrapper.style.transform = `translateX(-${move}%)`;
+    }
+
+    // --- 2. 時計更新（これはそのまま残す） ---
+    function updateTime() {
+        const timeDisplay = document.getElementById('current-time');
+        if (timeDisplay) {
+            const now = new Date();
+            const options = { timeZone: 'Asia/Tokyo', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            timeDisplay.innerText = "JST " + now.toLocaleTimeString('ja-JP', options);
+        }
+    }
+
+    // --- 3. お知らせ読み込み（これもそのまま残す） ---
+    function loadNews() {
+        // ... (前のコードと同じ)
+    }
+
+    window.onload = function() {
+        // ... (サイドバーの処理などはそのまま)
+        setInterval(updateTime, 1000);
+        updateTime();
+        loadNews();
+    };
+</script>
+
     // --- 時計更新 ---
     function updateTime() {
         const timeDisplay = document.getElementById('current-time');

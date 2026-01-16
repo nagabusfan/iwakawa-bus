@@ -584,3 +584,23 @@ body {
     background: #444;
     color: #fff;
 }
+/* 検索結果カードのデザイン */
+#search-result {
+    display: none; /* 最初は隠しておく */
+    margin-top: 15px;
+    padding: 15px;
+    background: white;
+    border-radius: 10px;
+    color: #333;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    animation: slideIn 0.3s ease-out; /* ふわっと出すアニメーション */
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.result-label { font-size: 11px; color: #666; margin-bottom: 2px; }
+.result-value { font-size: 18px; font-weight: bold; color: #2e7d32; margin-bottom: 8px; }
+.result-info { font-size: 11px; color: #999; border-top: 1px solid #eee; pt: 5px; }

@@ -43,7 +43,7 @@
 
         <div class="magazine-section">
             <div class="recommend-header">
-                <h3 style="margin:0; color:#2e7d32;">おすすめコンテンツ</h3>
+                <h3>おすすめコンテンツ</h3>
             </div>
 
             <button class="slider-arrow" id="prev-btn">◀</button>
@@ -86,34 +86,7 @@
 </footer>
 
 <script>
-    // --- スライダーの制御 ---
-    let currentSlide = 0;
-    const wrapper = document.getElementById('slider-wrapper');
-    const totalArticles = 5;
-    const showCount = 3;
-
-    document.getElementById('next-btn').onclick = function() {
-        if (currentSlide < totalArticles - showCount) {
-            currentSlide++;
-            updateSlider();
-        }
-    };
-
-    document.getElementById('prev-btn').onclick = function() {
-        if (currentSlide > 0) {
-            currentSlide--;
-            updateSlider();
-        }
-    };
-
-    function updateSlider() {
-        // カードの幅(33.33%)とギャップを考慮して移動
-        const move = currentSlide * (100 / showCount);
-        wrapper.style.transform = `translateX(-${move}%)`;
-    }
-
-    <script>
-    // --- 1. スライダーの制御（ここを新しいのに書き換え！） ---
+    // --- 1. スライダーの制御（無限ループ版） ---
     let currentSlide = 0;
     const wrapper = document.getElementById('slider-wrapper');
     const totalArticles = 5; 
@@ -121,7 +94,7 @@
 
     document.getElementById('next-btn').onclick = function() {
         if (currentSlide >= totalArticles - showCount) {
-            currentSlide = 0; // 最後まで行ったら最初に戻る（無限ループ）
+            currentSlide = 0; // 端っこまで行ったら最初に戻る
         } else {
             currentSlide++;
         }
@@ -130,7 +103,7 @@
 
     document.getElementById('prev-btn').onclick = function() {
         if (currentSlide <= 0) {
-            currentSlide = totalArticles - showCount; // 最初だったら最後に飛ぶ
+            currentSlide = totalArticles - showCount; // 最初なら最後にジャンプ
         } else {
             currentSlide--;
         }
@@ -142,7 +115,7 @@
         wrapper.style.transform = `translateX(-${move}%)`;
     }
 
-    // --- 2. 時計更新（これはそのまま残す） ---
+    // --- 2. 日本標準時(JST)の時計更新 ---
     function updateTime() {
         const timeDisplay = document.getElementById('current-time');
         if (timeDisplay) {
@@ -152,30 +125,7 @@
         }
     }
 
-    // --- 3. お知らせ読み込み（これもそのまま残す） ---
-    function loadNews() {
-        // ... (前のコードと同じ)
-    }
-
-    window.onload = function() {
-        // ... (サイドバーの処理などはそのまま)
-        setInterval(updateTime, 1000);
-        updateTime();
-        loadNews();
-    };
-</script>
-
-    // --- 時計更新 ---
-    function updateTime() {
-        const timeDisplay = document.getElementById('current-time');
-        if (timeDisplay) {
-            const now = new Date();
-            const options = { timeZone: 'Asia/Tokyo', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' };
-            timeDisplay.innerText = "JST " + now.toLocaleTimeString('ja-JP', options);
-        }
-    }
-
-    // --- お知らせ読み込み ---
+    // --- 3. 外部JSONからお知らせを読み込む ---
     function loadNews() {
         const newsList = document.getElementById('news-list');
         fetch('news.json')
@@ -196,13 +146,14 @@
             });
     }
 
-    // --- メイン実行 ---
+    // --- 4. ページ読み込み時の初期設定 ---
     window.onload = function() {
         const menuBtn = document.getElementById('menu-btn');
         const closeBtn = document.getElementById('close-btn');
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
 
+        // サイドバー開閉イベント
         if (menuBtn && sidebar && overlay) {
             menuBtn.onclick = () => { sidebar.classList.add('active'); overlay.classList.add('active'); };
             const close = () => { sidebar.classList.remove('active'); overlay.classList.remove('active'); };

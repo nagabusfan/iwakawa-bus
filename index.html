@@ -5,54 +5,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>岩川県交通</title>
     <style>
-        body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; margin: 0; background-color: #f9f9f9; color: #333; }
+        body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; margin: 0; background-color: #f9f9f9; color: #333; overflow-x: hidden; }
         
         /* ヘッダー */
-        header { background: white; border-top: 5px solid #0054a6; border-bottom: 1px solid #ccc; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+        header { background: white; border-top: 5px solid #0054a6; border-bottom: 1px solid #ccc; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .header-left { display: flex; align-items: center; gap: 15px; }
+        
+        /* メニューボタン（ハンバーガー） */
+        .menu-button { background: #0054a6; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 14px; }
+        .menu-button:hover { background: #003d7a; }
+
         .logo h1 { color: #0054a6; margin: 0; font-size: 24px; border-left: 8px solid #0054a6; padding-left: 10px; }
         
         /* メインのレイアウト */
-        .container { display: flex; max-width: 1000px; margin: 20px auto; gap: 20px; padding: 0 10px; }
+        .container { display: flex; max-width: 1000px; margin: 20px auto; gap: 20px; padding: 0 10px; position: relative; }
         
-        /* 左側のメニュー（サイドバー） */
-        .sidebar { width: 250px; flex-shrink: 0; }
+        /* 引き出しサイドバーの魔法 */
+        .sidebar { 
+            width: 250px; 
+            flex-shrink: 0; 
+            background: #f9f9f9;
+            transition: transform 0.3s ease; /* シュッと動くアニメーション */
+        }
+
+        /* スマホや隠したい時の設定 */
+        @media (max-width: 900px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100%;
+                z-index: 200;
+                background: white;
+                box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+                padding: 20px;
+                transform: translateX(-110%); /* 画面の左側に隠しておく */
+            }
+            .sidebar.active {
+                transform: translateX(0); /* ボタンを押したら出てくる */
+            }
+            /* 背景を暗くするカバー */
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 150;
+            }
+            .overlay.active { display: block; }
+        }
+
         .menu-item { background: white; border: 1px solid #ccc; margin-bottom: 5px; padding: 10px; font-weight: bold; color: #0054a6; cursor: pointer; }
         .menu-item:hover { background: #eef7ff; }
         .search-box { background: #00a0e9; color: white; padding: 10px; margin-bottom: 20px; border-radius: 5px; }
 
-        /* 右側のメインコンテンツ */
         .main-content { flex-grow: 1; background: white; border: 1px solid #ccc; padding: 20px; }
-        
-        /* お知らせアイテムのスタイル（JavaScriptで生成されるものに適用） */
         .news-item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; align-items: flex-start; gap: 10px; }
         .tag { color: white; font-size: 10px; padding: 2px 5px; border-radius: 3px; flex-shrink: 0; margin-top: 3px; font-weight: bold; }
-        
         .time-display { text-align: right; font-size: 12px; color: #666; }
 
-        /* テロップのアニメーション */
         @keyframes scroll-text {
             0% { transform: translateX(0); }
             100% { transform: translateX(-100%); }
-        }
-
-        /* スマホ対応 */
-        @media (max-width: 768px) {
-            .container { flex-direction: column; }
-            .sidebar { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo">
-        <h1>岩川県交通</h1>
+<div class="overlay" id="overlay"></div> <header>
+    <div class="header-left">
+        <button class="menu-button" id="menu-toggle">≡ MENU</button>
+        <div class="logo">
+            <h1>岩川県交通</h1>
+        </div>
     </div>
-    <div class="time-display" id="current-time">時刻を表示中...</div>
+    <div class="time-display" id="current-time">JST 00:00:00</div>
 </header>
 
 <div class="container">
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
+        <button class="menu-button" id="menu-close" style="margin-bottom: 20px; width: 100%; display: none;">閉じる ×</button>
+        
         <div class="search-box">
             経路・時刻・運賃検索
             <div style="background:white; color:#333; margin-top:5px; padding:5px; font-size:12px;">準備中...</div>
@@ -75,31 +111,7 @@
         </div>
 
         <h3 style="border-bottom: 2px solid #00a0e9; color: #00a0e9; padding-bottom: 5px; margin-top: 0;">新着情報</h3>
-        
         <div id="news-list">お知らせを読み込み中...</div>
-
-        <script>
-            // JSONファイルを読み込む魔法のコード
-            fetch('news.json')
-                .then(response => response.json())
-                .then(data => {
-                    const newsList = document.getElementById('news-list');
-                    newsList.innerHTML = ''; // 「読み込み中...」を消す
-
-                    data.forEach(item => {
-                        const newsItem = document.createElement('div');
-                        newsItem.className = 'news-item';
-                        newsItem.innerHTML = `
-                            <span class="tag" style="background:${item.tagColor}">${item.tag}</span>
-                            <a href="${item.url}" style="text-decoration: none; color: #0054a6;">${item.title}</a>
-                        `;
-                        newsList.appendChild(newsItem);
-                    });
-                })
-                .catch(error => {
-                    document.getElementById('news-list').innerHTML = 'お知らせの読み込みに失敗しました。';
-                });
-        </script>
     </div>
 </div>
 
@@ -108,6 +120,47 @@
 </footer>
 
 <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const menuClose = document.getElementById('menu-close');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+
+    // メニューを開く
+    menuToggle.onclick = () => {
+        sidebar.classList.add('active');
+        overlay.classList.add('active');
+    };
+
+    // メニューを閉じる
+    const closeMenu = () => {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+    };
+
+    menuClose.onclick = closeMenu;
+    overlay.onclick = closeMenu;
+
+    // お知らせ読み込み
+    fetch('news.json')
+        .then(response => response.json())
+        .then(data => {
+            const newsList = document.getElementById('news-list');
+            newsList.innerHTML = '';
+            data.forEach(item => {
+                const newsItem = document.createElement('div');
+                newsItem.className = 'news-item';
+                newsItem.innerHTML = `
+                    <span class="tag" style="background:${item.tagColor}">${item.tag}</span>
+                    <a href="${item.url}" style="text-decoration: none; color: #0054a6;">${item.title}</a>
+                `;
+                newsList.appendChild(newsItem);
+            });
+        })
+        .catch(error => {
+            document.getElementById('news-list').innerHTML = 'お知らせの読み込みに失敗しました。';
+        });
+
+    // 時計
     function updateTime() {
         const now = new Date();
         const options = { timeZone: 'Asia/Tokyo', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' };

@@ -22,8 +22,10 @@
 
         /* 右側のメインコンテンツ */
         .main-content { flex-grow: 1; background: white; border: 1px solid #ccc; padding: 20px; }
+        
+        /* お知らせアイテムのスタイル（JavaScriptで生成されるものに適用） */
         .news-item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; align-items: flex-start; gap: 10px; }
-        .tag { background: #999; color: white; font-size: 10px; padding: 2px 5px; border-radius: 3px; flex-shrink: 0; margin-top: 3px; }
+        .tag { color: white; font-size: 10px; padding: 2px 5px; border-radius: 3px; flex-shrink: 0; margin-top: 3px; font-weight: bold; }
         
         .time-display { text-align: right; font-size: 12px; color: #666; }
 
@@ -74,7 +76,7 @@
 
         <h3 style="border-bottom: 2px solid #00a0e9; color: #00a0e9; padding-bottom: 5px; margin-top: 0;">新着情報</h3>
         
-        <div id="news-list">読み込み中...</div>
+        <div id="news-list">お知らせを読み込み中...</div>
 
         <script>
             // JSONファイルを読み込む魔法のコード
@@ -98,10 +100,6 @@
                     document.getElementById('news-list').innerHTML = 'お知らせの読み込みに失敗しました。';
                 });
         </script>
-        <div class="news-item">
-            <span class="tag">お知らせ</span>
-            <span>公式Discordサーバーについて</span>
-        </div>
     </div>
 </div>
 

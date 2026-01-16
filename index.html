@@ -65,4 +65,61 @@
         const timeDisplay = document.getElementById('current-time');
         if (timeDisplay) {
             const now = new Date();
-            const options = { timeZone: 'Asia/Tokyo', hour
+            const options = { timeZone: 'Asia/Tokyo', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            timeDisplay.innerText = "JST " + now.toLocaleTimeString('ja-JP', options);
+        }
+    }
+
+    // 2. お知らせを読み込む機能
+    function loadNews() {
+        const newsList = document.getElementById('news-list');
+        fetch('news.json')
+            .then(response => response.json())
+            .then(data => {
+                if (newsList) {
+                    newsList.innerHTML = '';
+                    data.forEach(item => {
+                        const newsItem = document.createElement('div');
+                        newsItem.className = 'news-item';
+                        newsItem.innerHTML = `<span class="tag" style="background:${item.tagColor}">${item.tag}</span><a href="${item.url}" style="text-decoration: none; color: #0054a6; margin-left:10px;">${item.title}</a>`;
+                        newsList.appendChild(newsItem);
+                    });
+                }
+            })
+            .catch(error => {
+                if (newsList) newsList.innerHTML = 'お知らせの読み込みに失敗しました。';
+                console.error(error);
+            });
+    }
+
+    // 3. 画面が読み込まれたらすべてを動かす
+    window.onload = function() {
+        // メニューのボタン
+        const menuBtn = document.getElementById('menu-btn');
+        const closeBtn = document.getElementById('close-btn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        if (menuBtn && sidebar && overlay) {
+            menuBtn.onclick = function() {
+                sidebar.classList.add('active');
+                overlay.classList.add('active');
+            };
+            const close = function() {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            };
+            if (closeBtn) closeBtn.onclick = close;
+            overlay.onclick = close;
+        }
+
+        // 時計スタート
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // お知らせ読み込みスタート
+        loadNews();
+    };
+</script>
+</body>
+</html>

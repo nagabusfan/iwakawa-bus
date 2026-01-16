@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>岩川県交通 | 公式サイト</title>
+    <title>岩川県交通 | 公式サイト (Roblox)</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -41,73 +41,4 @@
         <h3 style="border-bottom: 2px solid #7e57c2; color: #7e57c2; padding-bottom: 5px; margin-top: 0;">新着情報</h3>
         <div id="news-list">お知らせを読み込み中...</div>
 
-        <div class="trivia-card">
-            <div class="trivia-title">🚌 岩川県交通の豆知識：東北のバス事情</div>
-            <p style="font-size: 14px; line-height: 1.6; margin: 0;">
-                東北地方では中型バスが主流の県が多い中、当社の走るエリア（岩手・宮城方面）は全国的にも珍しく<b>「大型バス」</b>が非常に多く活躍しています。<br><br>
-                朝晩の通学・通勤ラッシュに対応するため、一度に多くのお客様を運べる11m級の車両を導入しているのが特徴です。盛岡の街並みを堂々と走る大型車の迫力をぜひお楽しみください。
-            </p>
-        </div>
-    </div>
-</div>
-
-<footer>
-    <p style="text-align:center; font-size:10px; color:#999; margin-top: 20px;">&copy; 2026 Iwakawa Prefectural Transport.</p>
-</footer>
-
-<script>
-    // ※JavaScriptはまだ index.html に残しておきます（次はこれも分けられますよ！）
-    function updateTime() {
-        const timeDisplay = document.getElementById('current-time');
-        if (timeDisplay) {
-            const now = new Date();
-            const options = { timeZone: 'Asia/Tokyo', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' };
-            timeDisplay.innerText = "JST " + now.toLocaleTimeString('ja-JP', options);
-        }
-    }
-
-    function loadNews() {
-        const newsList = document.getElementById('news-list');
-        fetch('news.json')
-            .then(response => response.json())
-            .then(data => {
-                if (newsList) {
-                    newsList.innerHTML = '';
-                    data.forEach(item => {
-                        const newsItem = document.createElement('div');
-                        newsItem.className = 'news-item';
-                        newsItem.innerHTML = `<span class="tag" style="background:${item.tagColor}">${item.tag}</span><a href="${item.url}" style="text-decoration: none; color: #0054a6; margin-left:10px;">${item.title}</a>`;
-                        newsList.appendChild(newsItem);
-                    });
-                }
-            })
-            .catch(error => {
-                if (newsList) newsList.innerHTML = 'お知らせの読み込みに失敗しました。';
-                console.error(error);
-            });
-    }
-
-    window.onload = function() {
-        const menuBtn = document.getElementById('menu-btn');
-        const closeBtn = document.getElementById('close-btn');
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        if (menuBtn && sidebar && overlay) {
-            menuBtn.onclick = function() {
-                sidebar.classList.add('active');
-                overlay.classList.add('active');
-            };
-            const close = function() {
-                sidebar.classList.remove('active');
-                overlay.classList.remove('active');
-            };
-            if (closeBtn) closeBtn.onclick = close;
-            overlay.onclick = close;
-        }
-        setInterval(updateTime, 1000);
-        updateTime();
-        loadNews();
-    };
-</script>
-</body>
-</html>
+        <h3 style="border-bottom: 2px solid #2e7d32; color: #2e7d32; padding-bottom: 5px; margin-top: 40px;">岩川交通 公式マガ

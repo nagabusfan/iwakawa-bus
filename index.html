@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>岩川県交通 株式会社 | 公式サイト</title>
+    <style>
+        /* 岩川県交通のコーポレートカラー（濃い青と銀） */
+        body { font-family: sans-serif; margin: 0; background: #f0f2f5; color: #333; }
+        header { background: #003366; color: white; padding: 20px; text-align: center; border-bottom: 5px solid #ccc; }
+        .status-panel { background: white; margin: 20px; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .alert { color: #d00; font-weight: bold; border-left: 5px solid #d00; padding-left: 10px; }
+        .time-display { font-size: 0.9em; color: #666; text-align: right; }
+        footer { text-align: center; font-size: 0.8em; padding: 20px; color: #888; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>岩川県交通</h1>
+    <p style="font-size: 0.8em;">Iwakawa Prefectural Transport</p>
+</header>
+
+<div class="status-panel">
+    <div class="time-display" id="current-time">時刻を表示中...</div>
+    <h2>現在の運行状況</h2>
+    <p class="alert" id="status-text">【平常運行】現在、全線で平常通り運行しております。</p>
+    <hr>
+    <p>※放置車両等のトラブルが発生した場合は、ここに詳細が表示されます。</p>
+</div>
+
+<script>
+    // --- JavaScript: 正確な日本時間を表示する ---
+    function updateTime() {
+        const now = new Date();
+        // 日本時間に修正
+        const options = { timeZone: 'Asia/Tokyo', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        const timeString = now.toLocaleTimeString('ja-JP', options);
+        document.getElementById('current-time').innerText = "最終更新：JST " + timeString;
+    }
+    
+    // 1秒ごとに更新
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    // もし「12時間遅延」させたいときは、ここの文字を書き換えるだけ！
+    // document.getElementById('status-text').innerText = "【大幅遅延】放置車両の影響により、最大12時間の遅延が発生中。";
+</script>
+
+<footer>
+    &copy; 2026 Iwakawa Prefectural Transport. All Rights Reserved.
+</footer>
+
+</body>
+</html>

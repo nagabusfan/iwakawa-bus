@@ -3,53 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>岩川県交通 株式会社 | 公式サイト</title>
+    <title>岩川県交通 株式会社</title>
     <style>
-        /* 岩川県交通のコーポレートカラー（濃い青と銀） */
-        body { font-family: sans-serif; margin: 0; background: #f0f2f5; color: #333; }
-        header { background: #003366; color: white; padding: 20px; text-align: center; border-bottom: 5px solid #ccc; }
-        .status-panel { background: white; margin: 20px; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .alert { color: #d00; font-weight: bold; border-left: 5px solid #d00; padding-left: 10px; }
-        .time-display { font-size: 0.9em; color: #666; text-align: right; }
-        footer { text-align: center; font-size: 0.8em; padding: 20px; color: #888; }
+        body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; margin: 0; background-color: #f9f9f9; color: #333; }
+        
+        /* ヘッダー */
+        header { background: white; border-top: 5px solid #0054a6; border-bottom: 1px solid #ccc; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo h1 { color: #0054a6; margin: 0; font-size: 24px; border-left: 8px solid #0054a6; padding-left: 10px; }
+        
+        /* メインのレイアウト（ここが2カラム！） */
+        .container { display: flex; max-width: 1000px; margin: 20px auto; gap: 20px; padding: 0 10px; }
+        
+        /* 左側のメニュー（サイドバー） */
+        .sidebar { width: 250px; flex-shrink: 0; }
+        .menu-item { background: white; border: 1px solid #ccc; margin-bottom: 5px; padding: 10px; font-weight: bold; color: #0054a6; cursor: pointer; }
+        .menu-item:hover { background: #eef7ff; }
+        .search-box { background: #00a0e9; color: white; padding: 10px; margin-bottom: 20px; border-radius: 5px; }
+
+        /* 右側のメインコンテンツ */
+        .main-content { flex-grow: 1; background: white; border: 1px solid #ccc; padding: 20px; }
+        .news-item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; align-items: flex-start; gap: 10px; }
+        .tag { background: #999; color: white; font-size: 10px; padding: 2px 5px; border-radius: 3px; flex-shrink: 0; margin-top: 3px; }
+        .status-box { background: #fff3f3; border: 2px solid #d00; padding: 10px; margin-bottom: 20px; }
+        
+        .time-display { text-align: right; font-size: 12px; color: #666; }
+
+        /* スマホ対応：画面が狭いときは縦に並べる */
+        @media (max-width: 768px) {
+            .container { flex-direction: column; }
+            .sidebar { width: 100%; }
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>岩川県交通</h1>
-    <p style="font-size: 0.8em;">Iwakawa Prefectural Transport</p>
+    <div class="logo">
+        <h1>岩川県交通株式会社</h1>
+    </div>
+    <div class="time-display" id="current-time">時刻を表示中...</div>
 </header>
 
-<div class="status-panel">
-    <div class="time-display" id="current-time">時刻を表示中...</div>
-    <h2>現在の運行状況</h2>
-    <p class="alert" id="status-text">【平常運行】現在、全線で平常通り運行しております。</p>
-    <hr>
-    <p>※放置車両等のトラブルが発生した場合は、ここに詳細が表示されます。</p>
+<div class="container">
+    <div class="sidebar">
+        <div class="search-box">
+            経路・時刻・運賃検索
+            <div style="background:white; color:#333; margin-top:5px; padding:5px; font-size:12px;">準備中...</div>
+        </div>
+        <div class="menu-item">■ HOME</div>
+        <div class="menu-item">■ 路線バス</div>
+        <div class="menu-item">■ 高速バス</div>
+        <div class="menu-item">■ 求人情報</div>
+        <div class="menu-item">■ お問い合わせ</div>
+    </div>
+
+    <div class="main-content">
+        <div class="status-box">
+            <h3 style="margin:0; color:#d00;">現在の運行状況</h3>
+            <p id="status-text" style="margin:5px 0 0 0; font-weight:bold;">【平常運行】全線で平常通り運行しております。</p>
+        </div>
+
+        <h3 style="border-bottom: 2px solid #00a0e9; color: #00a0e9; padding-bottom: 5px;">新着情報</h3>
+        
+        <div class="news-item">
+            <span class="tag">お知らせ</span>
+            <span>岩川県交通 公式サイトを公開しました。</span>
+        </div>
+        <div class="news-item">
+            <span class="tag" style="background:#f06;">採用情報</span>
+            <span>【募集】バス運転士募集中！</span>
+        </div>
+        <div class="news-item">
+            <span class="tag">お知らせ</span>
+            <span>放置車両による12時間遅延への対策について</span>
+        </div>
+    </div>
 </div>
 
+<footer>
+    <p style="text-align:center; font-size:10px; color:#999;">&copy; 2026 Iwakawa Prefectural Transport.</p>
+</footer>
+
 <script>
-    // --- JavaScript: 正確な日本時間を表示する ---
     function updateTime() {
         const now = new Date();
-        // 日本時間に修正
         const options = { timeZone: 'Asia/Tokyo', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' };
-        const timeString = now.toLocaleTimeString('ja-JP', options);
-        document.getElementById('current-time').innerText = "最終更新：JST " + timeString;
+        document.getElementById('current-time').innerText = "JST " + now.toLocaleTimeString('ja-JP', options);
     }
-    
-    // 1秒ごとに更新
     setInterval(updateTime, 1000);
     updateTime();
-
-    // もし「12時間遅延」させたいときは、ここの文字を書き換えるだけ！
-    // document.getElementById('status-text').innerText = "【大幅遅延】放置車両の影響により、最大12時間の遅延が発生中。";
 </script>
-
-<footer>
-    &copy; 2026 Iwakawa Prefectural Transport. All Rights Reserved.
-</footer>
 
 </body>
 </html>

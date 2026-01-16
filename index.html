@@ -33,7 +33,7 @@
             <h3 style="margin:0 0 5px 0; color:#7e57c2; font-size: 16px;">現在の運行状況</h3>
             <div style="background: white; border: 1px solid #ccc; overflow: hidden; white-space: nowrap; padding: 5px;">
                 <div style="display: inline-block; padding-left: 100%; animation: scroll-text 15s linear infinite; color: #333; font-weight: bold;">
-                    【平常運行】 全線で平常通り運行しております。今日も岩川県交通をご利用いただきありがとうございます。
+                    【平常運行】 全線で平常通り運行しております。
                 </div>
             </div>
         </div>
@@ -41,33 +41,43 @@
         <h3 style="border-bottom: 2px solid #7e57c2; color: #7e57c2; padding-bottom: 5px; margin-top: 0;">新着情報</h3>
         <div id="news-list">お知らせを読み込み中...</div>
 
-        <h3 style="border-bottom: 2px solid #2e7d32; color: #2e7d32; padding-bottom: 5px; margin-top: 40px;">岩川交通 公式マガジン</h3>
-        <div class="article-section">
-            
-            <div class="article-card" onclick="location.href='articles/how-to-ride.html'">
-                <div class="article-img">🚌</div>
-                <div class="article-content">
-                    <h4>岩川県交通の乗り方ガイド</h4>
-                    <p>初めて岩川を訪れる方へ。乗車から運賃の支払い、降車までを完全解説！</p>
+        <div class="magazine-section">
+            <div class="recommend-header">
+                <h3 style="margin:0; color:#2e7d32;">おすすめコンテンツ</h3>
+                <div style="display: flex; gap: 10px;">
+                    <button class="slider-arrow" id="prev-btn">◀</button>
+                    <button class="slider-arrow" id="next-btn">▶</button>
                 </div>
             </div>
 
-            <div class="article-card" onclick="location.href='articles/new-bus-2026.html'">
-                <div class="article-img">✨</div>
-                <div class="article-content">
-                    <h4>新型車両、ここが凄い！</h4>
-                    <p>今月導入された最新鋭の大型ノンステップバス。その驚きの機能をチェック！</p>
+            <div class="slider-container">
+                <div class="slider-wrapper" id="slider-wrapper">
+                    <div class="article-card" onclick="location.href='articles/how-to-ride.html'">
+                        <div class="article-img">🚌</div>
+                        <div class="article-content"><h4>乗り方ガイド</h4><p>乗車から降車まで詳しく解説！</p></div>
+                    </div>
+                    <div class="article-card" onclick="location.href='articles/new-bus.html'">
+                        <div class="article-img">✨</div>
+                        <div class="article-content"><h4>新車のここが凄い！</h4><p>最新大型バスの機能を徹底解剖。</p></div>
+                    </div>
+                    <div class="article-card" onclick="location.href='articles/trivia.html'">
+                        <div class="article-img">💡</div>
+                        <div class="article-content"><h4>岩川県交通の小ネタ</h4><p>隠しネタや豆知識を公開中。</p></div>
+                    </div>
+                    <div class="article-card" onclick="location.href='articles/safety.html'">
+                        <div class="article-img">🛡️</div>
+                        <div class="article-content"><h4>安全へのこだわり</h4><p>安心・安全な運行のために。</p></div>
+                    </div>
+                    <div class="article-card" onclick="location.href='articles/history.html'">
+                        <div class="article-img">📂</div>
+                        <div class="article-content"><h4>岩川の歩み</h4><p>創業当時の様子を振り返る。</p></div>
+                    </div>
                 </div>
             </div>
 
-            <div class="article-card" onclick="location.href='articles/game-trivia.html'">
-                <div class="article-img">💡</div>
-                <div class="article-content">
-                    <h4>岩川県交通の小ネタ集</h4>
-                    <p>ゲーム内の隠し要素や、知っていると少し便利な豆知識を紹介します。</p>
-                </div>
+            <div class="view-all-container">
+                <a href="articles/list.html" class="view-all-btn">すべてのコンテンツを表示する</a>
             </div>
-
         </div>
     </div>
 </div>
@@ -77,6 +87,31 @@
 </footer>
 
 <script>
+    // スライダーの制御
+    let currentSlide = 0;
+    const wrapper = document.getElementById('slider-wrapper');
+    const totalArticles = 5;
+    const showCount = 3;
+
+    document.getElementById('next-btn').onclick = function() {
+        if (currentSlide < totalArticles - showCount) {
+            currentSlide++;
+            updateSlider();
+        }
+    };
+
+    document.getElementById('prev-btn').onclick = function() {
+        if (currentSlide > 0) {
+            currentSlide--;
+            updateSlider();
+        }
+    };
+
+    function updateSlider() {
+        const move = currentSlide * (100 / showCount);
+        wrapper.style.transform = `translateX(-${move}%)`;
+    }
+
     // 時計更新
     function updateTime() {
         const timeDisplay = document.getElementById('current-time');
@@ -113,20 +148,12 @@
         const closeBtn = document.getElementById('close-btn');
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
-
         if (menuBtn && sidebar && overlay) {
-            menuBtn.onclick = function() {
-                sidebar.classList.add('active');
-                overlay.classList.add('active');
-            };
-            const close = function() {
-                sidebar.classList.remove('active');
-                overlay.classList.remove('active');
-            };
+            menuBtn.onclick = () => { sidebar.classList.add('active'); overlay.classList.add('active'); };
+            const close = () => { sidebar.classList.remove('active'); overlay.classList.remove('active'); };
             if (closeBtn) closeBtn.onclick = close;
             overlay.onclick = close;
         }
-
         setInterval(updateTime, 1000);
         updateTime();
         loadNews();

@@ -7,64 +7,54 @@
     <style>
         body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; margin: 0; background-color: #f9f9f9; color: #333; overflow-x: hidden; }
         
-        /* ヘッダー */
-        header { background: white; border-top: 5px solid #0054a6; border-bottom: 1px solid #ccc; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        header { background: white; border-top: 5px solid #0054a6; border-bottom: 1px solid #ccc; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
         .header-left { display: flex; align-items: center; gap: 15px; }
         
-        /* メニューボタン（ハンバーガー） */
         .menu-button { background: #0054a6; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 14px; }
-        .menu-button:hover { background: #003d7a; }
-
         .logo h1 { color: #0054a6; margin: 0; font-size: 24px; border-left: 8px solid #0054a6; padding-left: 10px; }
-        
-        /* メインのレイアウト */
-        .container { display: flex; max-width: 1000px; margin: 20px auto; gap: 20px; padding: 0 10px; position: relative; }
-        
-        /* 引き出しサイドバーの魔法 */
+
+        /* 【重要】サイドバーの初期設定：画面の外に隠す */
         .sidebar { 
-            width: 250px; 
-            flex-shrink: 0; 
-            background: #f9f9f9;
-            transition: transform 0.3s ease; /* シュッと動くアニメーション */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+            padding: 80px 20px 20px 20px; /* ヘッダーの下から出るように調整 */
+            z-index: 500;
+            transform: translateX(-110%); /* 最初は左側に隠す */
+            transition: transform 0.3s ease; /* アニメーション */
         }
 
-        /* スマホや隠したい時の設定 */
-        @media (max-width: 900px) {
-            .sidebar {
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100%;
-                z-index: 200;
-                background: white;
-                box-shadow: 2px 0 10px rgba(0,0,0,0.2);
-                padding: 20px;
-                transform: translateX(-110%); /* 画面の左側に隠しておく */
-            }
-            .sidebar.active {
-                transform: translateX(0); /* ボタンを押したら出てくる */
-            }
-            /* 背景を暗くするカバー */
-            .overlay {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0,0,0,0.5);
-                z-index: 150;
-            }
-            .overlay.active { display: block; }
+        /* サイドバーが出ている時の状態 */
+        .sidebar.active {
+            transform: translateX(0);
         }
 
+        /* メインコンテンツをサイドバーの分だけ右にずらさない設定 */
+        .container { max-width: 1000px; margin: 20px auto; padding: 0 10px; }
+        .main-content { background: white; border: 1px solid #ccc; padding: 20px; }
+
+        /* 背景の暗幕（クリックで閉じるため） */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 400;
+        }
+        .overlay.active { display: block; }
+
+        /* その他パーツ */
         .menu-item { background: white; border: 1px solid #ccc; margin-bottom: 5px; padding: 10px; font-weight: bold; color: #0054a6; cursor: pointer; }
-        .menu-item:hover { background: #eef7ff; }
         .search-box { background: #00a0e9; color: white; padding: 10px; margin-bottom: 20px; border-radius: 5px; }
-
-        .main-content { flex-grow: 1; background: white; border: 1px solid #ccc; padding: 20px; }
         .news-item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; align-items: flex-start; gap: 10px; }
-        .tag { color: white; font-size: 10px; padding: 2px 5px; border-radius: 3px; flex-shrink: 0; margin-top: 3px; font-weight: bold; }
+        .tag { color: white; font-size: 10px; padding: 2px 5px; border-radius: 3px; font-weight: bold; }
         .time-display { text-align: right; font-size: 12px; color: #666; }
 
         @keyframes scroll-text {
@@ -75,20 +65,20 @@
 </head>
 <body>
 
-<div class="overlay" id="overlay"></div> <header>
+<div class="overlay" id="overlay"></div>
+
+<header>
     <div class="header-left">
-        <button class="menu-button" id="menu-toggle">≡ MENU</button>
+        <button class="menu-button" onclick="toggleMenu()">≡ MENU</button>
         <div class="logo">
             <h1>岩川県交通</h1>
         </div>
     </div>
-    <div class="time-display" id="current-time">JST 00:00:00</div>
+    <div class="time-display" id="current-time">JST --:--:--</div>
 </header>
 
 <div class="container">
     <div class="sidebar" id="sidebar">
-        <button class="menu-button" id="menu-close" style="margin-bottom: 20px; width: 100%; display: none;">閉じる ×</button>
-        
         <div class="search-box">
             経路・時刻・運賃検索
             <div style="background:white; color:#333; margin-top:5px; padding:5px; font-size:12px;">準備中...</div>
@@ -97,7 +87,7 @@
         <div class="menu-item">■ 路線バス</div>
         <div class="menu-item">■ 高速バス</div>
         <div class="menu-item">■ 求人情報</div>
-        <div class="menu-item">■ お問い合わせ</div>
+        <div class="menu-item" onclick="closeMenu()">■ 閉じる ×</div>
     </div>
     
     <div class="main-content">
@@ -115,60 +105,21 @@
     </div>
 </div>
 
-<footer>
-    <p style="text-align:center; font-size:10px; color:#999;">&copy; 2026 Iwakawa Prefectural Transport.</p>
-</footer>
-
 <script>
-    const menuToggle = document.getElementById('menu-toggle');
-    const menuClose = document.getElementById('menu-close');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-
-    // メニューを開く
-    menuToggle.onclick = () => {
-        sidebar.classList.add('active');
-        overlay.classList.add('active');
-    };
-
-    // メニューを閉じる
-    const closeMenu = () => {
-        sidebar.classList.remove('active');
-        overlay.classList.remove('active');
-    };
-
-    menuClose.onclick = closeMenu;
-    overlay.onclick = closeMenu;
-
-    // お知らせ読み込み
-    fetch('news.json')
-        .then(response => response.json())
-        .then(data => {
-            const newsList = document.getElementById('news-list');
-            newsList.innerHTML = '';
-            data.forEach(item => {
-                const newsItem = document.createElement('div');
-                newsItem.className = 'news-item';
-                newsItem.innerHTML = `
-                    <span class="tag" style="background:${item.tagColor}">${item.tag}</span>
-                    <a href="${item.url}" style="text-decoration: none; color: #0054a6;">${item.title}</a>
-                `;
-                newsList.appendChild(newsItem);
-            });
-        })
-        .catch(error => {
-            document.getElementById('news-list').innerHTML = 'お知らせの読み込みに失敗しました。';
-        });
-
-    // 時計
-    function updateTime() {
-        const now = new Date();
-        const options = { timeZone: 'Asia/Tokyo', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' };
-        document.getElementById('current-time').innerText = "JST " + now.toLocaleTimeString('ja-JP', options);
+    // メニューを開閉する関数（function）
+    function toggleMenu() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        
+        // activeクラスをつけたり消したりする（toggle）
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
     }
-    setInterval(updateTime, 1000);
-    updateTime();
-</script>
 
-</body>
-</html>
+    // メニューを閉じるだけの関数
+    function closeMenu() {
+        document.getElementById('sidebar').classList.remove('active');
+        document.getElementById('overlay').classList.remove('active');
+    }
+
+    // 背景

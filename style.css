@@ -396,3 +396,75 @@ header {
 }
 .view-all-btn:hover { background: #7e57c2; transform: translateY(-3px); }
 
+/* --- マガジンセクション全体のフォントと微調整 --- */
+.magazine-section {
+    margin-top: 60px; /* 少し余裕を持たせる */
+    position: relative;
+    padding: 0 60px;
+}
+
+/* タイトルをおしゃれに：少し大きく、字間を広げる */
+.recommend-header h3 {
+    margin: 0;
+    color: #2e7d32;
+    font-size: 24px; /* 大きく */
+    letter-spacing: 0.1em; /* 字間を広げておしゃれに */
+    font-weight: 800;
+}
+
+/* 記事カード：さらに洗練されたデザイン */
+.article-card {
+    min-width: calc(33.333% - 14px);
+    background: white;
+    border-radius: 25px; /* さらに丸く */
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1); /* 動きをより滑らかに */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.article-card:hover {
+    transform: translateY(-12px); /* しっかり浮かす */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+/* 記事タイトルのフォントを強調 */
+.article-content h4 {
+    margin: 0 0 12px 0;
+    color: #333; /* 文字は濃いグレーで高級感を */
+    font-size: 19px; /* 大きめに */
+    font-weight: bold;
+    line-height: 1.5;
+}
+
+.article-content p {
+    font-size: 14px;
+    color: #777;
+    line-height: 1.6;
+}
+
+/* --- 矢印ボタン：いい感じの灰色固定 --- */
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #e0e0e0; /* 明るめのグレー */
+    color: #666666;       /* 矢印は濃いグレー */
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+/* ホバー時は少し色が濃くなる程度で、緑にはしません */
+.slider-arrow:hover {
+    background: #d0d0d0;
+    color: #333;
+}

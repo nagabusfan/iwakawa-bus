@@ -11,7 +11,7 @@
         header { background: white; border-top: 5px solid #0054a6; border-bottom: 1px solid #ccc; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
         .logo h1 { color: #0054a6; margin: 0; font-size: 24px; border-left: 8px solid #0054a6; padding-left: 10px; }
         
-        /* メインのレイアウト（ここが2カラム！） */
+        /* メインのレイアウト */
         .container { display: flex; max-width: 1000px; margin: 20px auto; gap: 20px; padding: 0 10px; }
         
         /* 左側のメニュー（サイドバー） */
@@ -24,11 +24,16 @@
         .main-content { flex-grow: 1; background: white; border: 1px solid #ccc; padding: 20px; }
         .news-item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; align-items: flex-start; gap: 10px; }
         .tag { background: #999; color: white; font-size: 10px; padding: 2px 5px; border-radius: 3px; flex-shrink: 0; margin-top: 3px; }
-        .status-box { background: #fff3f3; border: 2px solid #d00; padding: 10px; margin-bottom: 20px; }
         
         .time-display { text-align: right; font-size: 12px; color: #666; }
 
-        /* スマホ対応：画面が狭いときは縦に並べる */
+        /* テロップのアニメーション */
+        @keyframes scroll-text {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* スマホ対応 */
         @media (max-width: 768px) {
             .container { flex-direction: column; }
             .sidebar { width: 100%; }
@@ -50,14 +55,15 @@
             経路・時刻・運賃検索
             <div style="background:white; color:#333; margin-top:5px; padding:5px; font-size:12px;">準備中...</div>
         </div>
-        <div class="menu-item">■ HOME</div>
+        <div class="menu-item" onclick="location.href='index.html'">■ HOME</div>
         <div class="menu-item">■ 路線バス</div>
         <div class="menu-item">■ 高速バス</div>
         <div class="menu-item">■ 求人情報</div>
         <div class="menu-item">■ お問い合わせ</div>
     </div>
     
-<div style="background: #e6f7f8; border: 2px solid #00a0e9; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
+    <div class="main-content">
+        <div style="background: #e6f7f8; border: 2px solid #00a0e9; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
             <h3 style="margin:0 0 5px 0; color:#0071a0; font-size: 16px;">現在の運行状況</h3>
             <div style="background: white; border: 1px solid #ccc; overflow: hidden; white-space: nowrap; padding: 5px;">
                 <div style="display: inline-block; padding-left: 100%; animation: scroll-text 15s linear infinite; color: #333; font-weight: bold;">
@@ -66,14 +72,7 @@
             </div>
         </div>
 
-        <style>
-            @keyframes scroll-text {
-                0% { transform: translateX(0); }
-                100% { transform: translateX(-100%); }
-            }
-        </style>
-
-        <h3 style="border-bottom: 2px solid #00a0e9; color: #00a0e9; padding-bottom: 5px;">新着情報</h3>
+        <h3 style="border-bottom: 2px solid #00a0e9; color: #00a0e9; padding-bottom: 5px; margin-top: 0;">新着情報</h3>
         
         <div class="news-item">
             <span class="tag">お知らせ</span>

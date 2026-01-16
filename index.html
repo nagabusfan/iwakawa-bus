@@ -33,7 +33,7 @@
             <h3 style="margin:0 0 5px 0; color:#7e57c2; font-size: 16px;">現在の運行状況</h3>
             <div style="background: white; border: 1px solid #ccc; overflow: hidden; white-space: nowrap; padding: 5px;">
                 <div style="display: inline-block; padding-left: 100%; animation: scroll-text 15s linear infinite; color: #333; font-weight: bold;">
-                    【平常運行】 全線で平常通り運行しております。
+                    【平常運行】 全線で平常通り運行しております。今日も岩川県交通をご利用いただきありがとうございます。
                 </div>
             </div>
         </div>
@@ -44,11 +44,10 @@
         <div class="magazine-section">
             <div class="recommend-header">
                 <h3 style="margin:0; color:#2e7d32;">おすすめコンテンツ</h3>
-                <div style="display: flex; gap: 10px;">
-                    <button class="slider-arrow" id="prev-btn">◀</button>
-                    <button class="slider-arrow" id="next-btn">▶</button>
-                </div>
             </div>
+
+            <button class="slider-arrow" id="prev-btn">◀</button>
+            <button class="slider-arrow" id="next-btn">▶</button>
 
             <div class="slider-container">
                 <div class="slider-wrapper" id="slider-wrapper">
@@ -87,7 +86,7 @@
 </footer>
 
 <script>
-    // スライダーの制御
+    // --- スライダーの制御 ---
     let currentSlide = 0;
     const wrapper = document.getElementById('slider-wrapper');
     const totalArticles = 5;
@@ -108,11 +107,12 @@
     };
 
     function updateSlider() {
+        // カードの幅(33.33%)とギャップを考慮して移動
         const move = currentSlide * (100 / showCount);
         wrapper.style.transform = `translateX(-${move}%)`;
     }
 
-    // 時計更新
+    // --- 時計更新 ---
     function updateTime() {
         const timeDisplay = document.getElementById('current-time');
         if (timeDisplay) {
@@ -122,7 +122,7 @@
         }
     }
 
-    // お知らせ読み込み
+    // --- お知らせ読み込み ---
     function loadNews() {
         const newsList = document.getElementById('news-list');
         fetch('news.json')
@@ -143,17 +143,20 @@
             });
     }
 
+    // --- メイン実行 ---
     window.onload = function() {
         const menuBtn = document.getElementById('menu-btn');
         const closeBtn = document.getElementById('close-btn');
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
+
         if (menuBtn && sidebar && overlay) {
             menuBtn.onclick = () => { sidebar.classList.add('active'); overlay.classList.add('active'); };
             const close = () => { sidebar.classList.remove('active'); overlay.classList.remove('active'); };
             if (closeBtn) closeBtn.onclick = close;
             overlay.onclick = close;
         }
+
         setInterval(updateTime, 1000);
         updateTime();
         loadNews();

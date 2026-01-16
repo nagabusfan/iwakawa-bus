@@ -74,14 +74,30 @@
 
         <h3 style="border-bottom: 2px solid #00a0e9; color: #00a0e9; padding-bottom: 5px; margin-top: 0;">新着情報</h3>
         
-        <div class="news-item">
-            <span class="tag">お知らせ</span>
-            <a href="news01.html" style="text-decoration: none; color: #0054a6;">岩川県交通 公式サイトを公開しました。</a>
-        </div>
-        <div class="news-item">
-            <span class="tag" style="background:#f06;">採用情報</span>
-            <span>【募集】バス運転士募集中！</span>
-        </div>
+        <div id="news-list">読み込み中...</div>
+
+        <script>
+            // JSONファイルを読み込む魔法のコード
+            fetch('news.json')
+                .then(response => response.json())
+                .then(data => {
+                    const newsList = document.getElementById('news-list');
+                    newsList.innerHTML = ''; // 「読み込み中...」を消す
+
+                    data.forEach(item => {
+                        const newsItem = document.createElement('div');
+                        newsItem.className = 'news-item';
+                        newsItem.innerHTML = `
+                            <span class="tag" style="background:${item.tagColor}">${item.tag}</span>
+                            <a href="${item.url}" style="text-decoration: none; color: #0054a6;">${item.title}</a>
+                        `;
+                        newsList.appendChild(newsItem);
+                    });
+                })
+                .catch(error => {
+                    document.getElementById('news-list').innerHTML = 'お知らせの読み込みに失敗しました。';
+                });
+        </script>
         <div class="news-item">
             <span class="tag">お知らせ</span>
             <span>公式Discordサーバーについて</span>

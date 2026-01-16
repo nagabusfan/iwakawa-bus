@@ -21,7 +21,40 @@
 
 <div class="container">
     <div class="sidebar" id="sidebar">
-        <div class="search-box">経路・時刻・運賃検索<div style="background:white; color:#333; margin-top:5px; padding:5px; font-size:12px;">準備中...</div></div>
+        <div class="search-box">
+            <div style="margin-bottom: 8px; font-weight: bold; font-size: 14px; color: #fff;">経路・運賃検索</div>
+            
+            <select id="start-point" style="width: 100%; padding: 8px; border-radius: 5px; border: none; margin-bottom: 8px; font-size: 12px;">
+                <option value="">出発地を選択</option>
+                <option value="horioka-st">堀岡駅</option>
+                <option value="yuuhibashi">夕日橋</option>
+                <option value="asagasase">朝顔瀬橋</option>
+                <option value="ryohara">両原</option>
+                <option value="tatezakabashi">建坂橋</option>
+                <option value="yabetate">矢部館</option>
+                <option value="shimodou">下堂</option>
+                <option value="shimodou-2">下堂二丁目</option>
+                <option value="ujikobashi">宇治子橋</option>
+            </select>
+
+            <select id="end-point" style="width: 100%; padding: 8px; border-radius: 5px; border: none; margin-bottom: 12px; font-size: 12px;">
+                <option value="">目的地を選択</option>
+                <option value="horioka-st">堀岡駅</option>
+                <option value="yuuhibashi">夕日橋</option>
+                <option value="asagasase">朝顔瀬橋</option>
+                <option value="ryohara">両原</option>
+                <option value="tatezakabashi">建坂橋</option>
+                <option value="yabetate">矢部館</option>
+                <option value="shimodou">下堂</option>
+                <option value="shimodou-2">下堂二丁目</option>
+                <option value="ujikobashi">宇治子橋</option>
+            </select>
+
+            <button onclick="searchRoute()" style="width: 100%; background: #2e7d32; color: white; border: none; padding: 10px; border-radius: 5px; font-weight: bold; cursor: pointer;">
+                検索する
+            </button>
+        </div>
+
         <div class="menu-item" onclick="location.href='index.html'">■ HOME</div>
         <div class="menu-item" onclick="alert('準備中です！')">■ 路線バス</div>
         <div class="menu-item" onclick="alert('準備中です！')">■ 高速バス</div>
@@ -30,12 +63,11 @@
     </div>
 
     <div class="main-content">
-        
         <div style="background: #f3f0f9; border: 2px solid #7e57c2; padding: 10px; margin-bottom: 25px; border-radius: 10px;">
             <h3 style="margin:0 0 5px 0; color:#7e57c2; font-size: 16px;">現在の運行状況</h3>
             <div style="background: white; border: 1px solid #ccc; overflow: hidden; white-space: nowrap; padding: 5px; border-radius: 5px;">
                 <div style="display: inline-block; padding-left: 100%; animation: scroll-text 15s linear infinite; color: #333; font-weight: bold;">
-                    【平常運行】 全線で平常通り運行しております。今日も岩川県交通をご利用いただきありがとうございます。
+                    【平常運行】 全線で平常通り運行しております。
                 </div>
             </div>
         </div>
@@ -47,50 +79,32 @@
             <div class="recommend-header">
                 <h3>おすすめコンテンツ</h3>
             </div>
-
             <button class="slider-arrow" id="prev-btn" style="left: -15px;">◀</button>
             <button class="slider-arrow" id="next-btn" style="right: -15px;">▶</button>
-
             <div class="slider-container">
                 <div class="slider-wrapper" id="slider-wrapper">
                     <div class="article-card" onclick="location.href='articles/how-to-ride.html'">
                         <div class="article-img">🚌</div>
-                        <div class="article-content">
-                            <h4>岩川県交通の乗り方</h4>
-                            <p>Robloxで初めての方も安心！スムーズな乗車方法を詳しく解説します。</p>
-                        </div>
+                        <div class="article-content"><h4>岩川県交通の乗り方</h4><p>堀岡駅から乗る時の手順を詳しく解説！</p></div>
                     </div>
                     <div class="article-card" onclick="location.href='articles/new-bus.html'">
                         <div class="article-img">✨</div>
-                        <div class="article-content">
-                            <h4>新型2026モデル登場</h4>
-                            <p>待望の大型ノンステップバス。車いす対応や最新設備をチェック！</p>
-                        </div>
+                        <div class="article-content"><h4>新型2026モデル登場</h4><p>最新大型バスの設備をチェック！</p></div>
                     </div>
                     <div class="article-card" onclick="location.href='articles/trivia.html'">
                         <div class="article-img">💡</div>
-                        <div class="article-content">
-                            <h4>ゲーム内限定の小ネタ</h4>
-                            <p>マップの端っこにある秘密や、知っていると自慢できる豆知識集。</p>
-                        </div>
+                        <div class="article-content"><h4>ゲーム内限定の小ネタ</h4><p>マップの端っこにある秘密の豆知識集。</p></div>
                     </div>
                     <div class="article-card" onclick="location.href='articles/safety.html'">
                         <div class="article-img">🛡️</div>
-                        <div class="article-content">
-                            <h4>安全運行への想い</h4>
-                            <p>岩川県交通が取り組む、事故ゼロ・定時運行のための工夫とは？</p>
-                        </div>
+                        <div class="article-content"><h4>安全運行への想い</h4><p>事故ゼロ・定時運行のための工夫とは？</p></div>
                     </div>
                     <div class="article-card" onclick="location.href='articles/history.html'">
                         <div class="article-img">📂</div>
-                        <div class="article-content">
-                            <h4>岩川の歴史を知る</h4>
-                            <p>創業当時の懐かしい車両から、進化を続ける現在の姿までを追います。</p>
-                        </div>
+                        <div class="article-content"><h4>岩川の歴史を知る</h4><p>創業当時の懐かしい車両を追います。</p></div>
                     </div>
                 </div>
             </div>
-
             <div class="view-all-container">
                 <a href="articles/list.html" class="view-all-btn">すべてのコンテンツを表示</a>
             </div>
@@ -99,42 +113,52 @@
 </div>
 
 <footer>
-    <p style="text-align:center; font-size:11px; color:#999; margin-top: 50px; letter-spacing: 0.1em;">
-        &copy; 2026 Iwakawa Prefectural Transport (Roblox Official).
-    </p>
+    <p style="text-align:center; font-size:11px; color:#999; margin-top: 50px;">&copy; 2026 Iwakawa Prefectural Transport.</p>
 </footer>
 
 <script>
-    // --- スライダー制御（無限ループ版） ---
+    // --- 1. 運賃計算システム（四捨五入ルール適用版） ---
+    const distanceData = {
+        "horioka-st": 0, "yuuhibashi": 0.3, "asagasase": 0.9, "ryohara": 1.2,
+        "tatezakabashi": 1.6, "yabetate": 2.2, "shimodou": 2.8, "shimodou-2": 3.2, "ujikobashi": 3.8
+    };
+
+    function searchRoute() {
+        const startKey = document.getElementById('start-point').value;
+        const endKey = document.getElementById('end-point').value;
+
+        if (!startKey || !endKey) { alert("出発地と目的地を選択してください！"); return; }
+        if (startKey === endKey) { alert("同じ場所です。"); return; }
+
+        const dist = Math.abs(distanceData[endKey] - distanceData[startKey]);
+        
+        // ★社長のこだわり：2.5kmで30円増にするため「四捨五入(Math.round)」を採用
+        const extraFare = Math.round(dist) * 10;
+        const totalFare = 150 + extraFare;
+
+        alert(`【岩川県交通 運賃検索結果】\n\n■距離：約 ${dist.toFixed(1)} km\n■運賃：${totalFare} 円\n\n※端数は四捨五入で計算しています。`);
+    }
+
+    // --- 2. スライダー制御 (無限ループ) ---
     let currentSlide = 0;
     const wrapper = document.getElementById('slider-wrapper');
     const totalArticles = 5; 
     const showCount = 3;    
 
     document.getElementById('next-btn').onclick = function() {
-        if (currentSlide >= totalArticles - showCount) {
-            currentSlide = 0; // 最後まで行ったら最初に戻る
-        } else {
-            currentSlide++;
-        }
+        if (currentSlide >= totalArticles - showCount) { currentSlide = 0; } else { currentSlide++; }
         updateSlider();
     };
-
     document.getElementById('prev-btn').onclick = function() {
-        if (currentSlide <= 0) {
-            currentSlide = totalArticles - showCount; // 最初なら最後に飛ぶ
-        } else {
-            currentSlide--;
-        }
+        if (currentSlide <= 0) { currentSlide = totalArticles - showCount; } else { currentSlide--; }
         updateSlider();
     };
-
     function updateSlider() {
         const move = currentSlide * (100 / showCount);
         wrapper.style.transform = `translateX(-${move}%)`;
     }
 
-    // --- 時計更新 ---
+    // --- 3. 時計 & お知らせ ---
     function updateTime() {
         const timeDisplay = document.getElementById('current-time');
         if (timeDisplay) {
@@ -144,44 +168,33 @@
         }
     }
 
-    // --- お知らせ読み込み ---
     function loadNews() {
         const newsList = document.getElementById('news-list');
-        fetch('news.json')
-            .then(response => response.json())
-            .then(data => {
-                if (newsList) {
-                    newsList.innerHTML = '';
-                    data.forEach(item => {
-                        const newsItem = document.createElement('div');
-                        newsItem.className = 'news-item';
-                        newsItem.innerHTML = `<span class="tag" style="background:${item.tagColor}">${item.tag}</span><a href="${item.url}" style="text-decoration: none; color: #0054a6; margin-left:10px; font-weight:bold;">${item.title}</a>`;
-                        newsList.appendChild(newsItem);
-                    });
-                }
-            })
-            .catch(error => {
-                if (newsList) newsList.innerHTML = 'お知らせの読み込みに失敗しました。';
-            });
+        fetch('news.json').then(res => res.json()).then(data => {
+            if (newsList) {
+                newsList.innerHTML = '';
+                data.forEach(item => {
+                    const newsItem = document.createElement('div');
+                    newsItem.className = 'news-item';
+                    newsItem.innerHTML = `<span class="tag" style="background:${item.tagColor}">${item.tag}</span><a href="${item.url}" style="text-decoration: none; color: #0054a6; margin-left:10px; font-weight:bold;">${item.title}</a>`;
+                    newsList.appendChild(newsItem);
+                });
+            }
+        }).catch(e => { if (newsList) newsList.innerHTML = '読み込み失敗'; });
     }
 
-    // --- メイン初期化 ---
     window.onload = function() {
         const menuBtn = document.getElementById('menu-btn');
-        const closeBtn = document.getElementById('close-btn');
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
-
+        const closeBtn = document.getElementById('close-btn');
         if (menuBtn && sidebar && overlay) {
             menuBtn.onclick = () => { sidebar.classList.add('active'); overlay.classList.add('active'); };
             const close = () => { sidebar.classList.remove('active'); overlay.classList.remove('active'); };
             if (closeBtn) closeBtn.onclick = close;
             overlay.onclick = close;
         }
-
-        setInterval(updateTime, 1000);
-        updateTime();
-        loadNews();
+        setInterval(updateTime, 1000); updateTime(); loadNews();
     };
 </script>
 </body>

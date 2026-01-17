@@ -1,6 +1,32 @@
 [
-  { "title": "バスの乗り方知ろう!", "desc": "今回は、バスの乗り方を分かりやすく解説しました!", "icon": "🚌", "url": "articles/how-to-ride.html" },
-  { "title": "新型車両を導入!", "desc": "最新バスのココが凄い!", "icon": "✨", "url": "articles/new-bus.html" },
-  { "title": "小ネタ集", "desc": "岩川県の小ネタを知れます!", "icon": "💡", "url": "articles/trivia.html" },
-  { "title": "安全運行への心がけ", "desc": "安心・安全な運行のために日々努力しています。", "icon": "🛡️", "url": "articles/safety.html" }
+  {
+    "title": "バスの乗り方ガイド",
+    "desc": "今回は、バスの乗り方を分かりやすく解説しました！",
+    "icon": "🚌",
+    "url": "articles/how-to-ride.html"
+  },
+  {
+    "title": "新型車両を導入！",
+    "desc": "最新バスのココが凄い！",
+    "icon": "✨",
+    "url": "articles/new-bus.html"
+  },
+  {
+    "title": "小ネタ集",
+    "desc": "岩川県の小ネタを知れます！",
+    "icon": "💡",
+    "url": "articles/trivia.html"
+  },
+  {
+    "title": "安全運行への心がけ",
+    "desc": "安心・安全な運行のために日々努力しています。",
+    "icon": "🛡️",
+    "url": "articles/safety.html"
+  },
+  {
+    "title": "岩川県交通の歴史",
+    "desc": "岩川県交通のあゆみ",
+    "icon": "📁",
+    "url": "articles/history.html"
+  }
 ]

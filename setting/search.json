@@ -1,0 +1,8 @@
+[
+  { "id": "horioka-st", "name": "堀岡駅", "kana": "ほりおかえき", "dist": 0 },
+  { "id": "yuuhibashi", "name": "夕日橋", kana: "ゆうひばし", "dist": 0.3 },
+  { "id": "asagasase", "name": "朝顔瀬橋", "kana": "あさがせばし", "dist": 0.9 },
+  { "id": "ryohara", "name": "両原", "kana": "りょうら", "dist": 1.2 },
+  { "id": "shimodou", "name": "下堂", "kana": "しもどう", "dist": 2.8 },
+  { "id": "ujikobashi", "name": "宇治子橋", "kana": "うじこばし", "dist": 3.8 }
+]

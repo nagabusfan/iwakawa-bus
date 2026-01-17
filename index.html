@@ -17,7 +17,7 @@
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 999; }
         .overlay.active { display: block; }
         
-        /* 検索ボックス */
+        /* サイドバー内の検索ボックス */
         .search-box { background: #e3f2fd; padding: 15px; border-radius: 15px; margin: 40px 0 20px 0; }
         .search-input-wrapper { position: relative; margin-bottom: 10px; }
         .search-box input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #bbdefb; box-sizing: border-box; outline: none; }
@@ -25,18 +25,19 @@
         .suggestion-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #eee; font-size: 14px; text-align: left; }
         .suggestion-item:hover { background-color: #f0f4f8; color: #0d47a1; }
         .search-btn { width: 100%; background: #2e7d32; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 5px; }
-        #search-result { display: none; margin-top: 15px; padding: 15px; background: white; border-radius: 15px; border: 2px solid #0d47a1; }
         
         .menu-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; font-weight: bold; border-radius: 10px; }
         .menu-item:hover { background: #f0f4f8; color: #0d47a1; }
         
         .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
         
+        /* 運行状況 */
         .status-bar { background: white; border: 2px solid #2e7d32; padding: 10px; margin-bottom: 25px; border-radius: 15px; }
         .ticker { background: #f1f8e9; overflow: hidden; white-space: nowrap; padding: 8px; border-radius: 10px; position: relative; }
         .ticker-text { display: inline-block; white-space: nowrap; padding-left: 100%; font-weight: bold; color: #1b5e20; line-height: 1.5; }
         @keyframes scroll-text { from { transform: translateX(0); } to { transform: translateX(-100%); } }
         
+        /* コンテンツスライダー */
         .magazine-section { margin-top: 50px; position: relative; padding: 0 50px; }
         .slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: #e0e0e0; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
         #prev-btn { left: 0; }
@@ -46,6 +47,7 @@
         .article-card { min-width: calc(33.333% - 20px); margin: 10px; background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); cursor: pointer; text-align: center; }
         .article-img { height: 120px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; font-size: 40px; }
         .article-content { padding: 15px; }
+        
         .view-all-container { text-align: center; margin-top: 30px; }
         .view-all-btn { display: inline-block; padding: 12px 30px; background-color: #0d47a1; color: white; text-decoration: none; border-radius: 50px; font-weight: bold; }
         footer { text-align: center; padding: 40px; color: #999; border-top: 1px solid #ddd; }
@@ -70,10 +72,7 @@
             <div id="end-list" class="suggestion-list"></div>
         </div>
         <button class="search-btn" onclick="searchRoute()">検索する</button>
-        <div id="search-result">
-            <div style="font-size:11px;">片道運賃</div><div id="res-fare" style="font-size:22px; font-weight:bold; color:#0d47a1;">--- 円</div>
-            <div style="font-size:11px; margin-top:5px;">区間距離: <span id="res-dist">---</span> km</div>
-        </div>
+        <p style="font-size: 10px; color: #666; margin-top: 5px;">※別サイトへ移動します</p>
     </div>
     <div class="menu-item" onclick="location.href='index.html'">■ HOME</div>
     <div class="menu-item" onclick="alert('準備中')">■ 路線バス</div>
@@ -85,11 +84,12 @@
 
 <div class="container">
     <div class="status-bar" id="status-bar-box">
-        <h3 style="margin:0 0 5px 0; color:#2e7d32; font-size: 16px;" id="status-label">運行状況</h3>
+        <h3 style="margin:0 0 5px 0; color:#2e7d32; font-size: 16px;">運行状況</h3>
         <div class="ticker" id="ticker-box"><div class="ticker-text" id="status-text">読み込み中...</div></div>
     </div>
     <h3 style="border-left: 5px solid #0d47a1; padding-left:10px; color:#0d47a1;">新着情報</h3>
     <div id="news-list">読み込み中...</div>
+    
     <div class="magazine-section">
         <h3 style="text-align:center; color:#0d47a1; font-weight: 900; font-size: 24px; margin-bottom: 30px;">おすすめコンテンツ</h3>
         <button class="slider-arrow" id="prev-btn">◀</button><button class="slider-arrow" id="next-btn">▶</button>
@@ -101,7 +101,6 @@
 
 <script>
     let stopData = [];
-    let distanceData = {};
     let articleCount = 0;
     let currentSliderIndex = 0;
 
@@ -118,14 +117,11 @@
             }
         } catch (e) { console.error("Config error"); }
 
-        // 2. 検索 (search.jsonからデータを読み込む)
+        // 2. 検索候補用データ読み込み
         try {
             const res = await fetch('setting/search.json');
-            if (res.ok) {
-                stopData = await res.json();
-                stopData.forEach(s => { distanceData[s.name] = s.dist; });
-            }
-        } catch (e) { console.error("Search error"); }
+            if (res.ok) { stopData = await res.json(); }
+        } catch (e) { console.error("Search data error"); }
 
         // 3. おすすめ記事
         try {
@@ -162,6 +158,7 @@
         } catch (e) { console.error("News error"); }
     }
 
+    // 検索候補の表示
     function showSuggestions(type) {
         const input = document.getElementById(type + '-input');
         const list = document.getElementById(type + '-list');
@@ -181,19 +178,25 @@
         } else { list.style.display = 'none'; }
     }
 
+    // ★重要：新しい検索サイトへ飛ばす関数
     function searchRoute() {
         const s = document.getElementById('start-input').value.trim();
         const e = document.getElementById('end-input').value.trim();
-        if (distanceData[s] === undefined || distanceData[e] === undefined || s === e) {
-            alert("正しい停留所名を入力またはリストから選択してください"); return;
+        
+        if (!s || !e || s === e) {
+            alert("出発地と目的地を正しく入力してください");
+            return;
         }
-        const dist = Math.abs(distanceData[e] - distanceData[s]);
-        const fare = 150 + (Math.round(dist) * 10);
-        document.getElementById('res-fare').innerText = fare + " 円";
-        document.getElementById('res-dist').innerText = dist.toFixed(1);
-        document.getElementById('search-result').style.display = "block";
+
+        // 社長のユーザー名に書き換えてください
+        const userName = "YOUR-GITHUB-USERNAME"; 
+        const searchUrl = `https://nagabusfan.github.io/iwakawa-district-bus-search/`;
+
+        // URLパラメータをつけてジャンプ
+        window.location.href = `${searchUrl}?from=${encodeURIComponent(s)}&to=${encodeURIComponent(e)}`;
     }
 
+    // スライダー制御
     document.getElementById('next-btn').onclick = () => {
         currentSliderIndex = (currentSliderIndex >= articleCount - 3) ? 0 : currentSliderIndex + 1;
         document.getElementById('slider-wrapper').style.transform = `translateX(-${currentSliderIndex * 33.333}%)`;
@@ -205,6 +208,7 @@
 
     function updateTime() { document.getElementById('current-time').innerText = "JST " + new Date().toLocaleTimeString('ja-JP'); }
     setInterval(updateTime, 1000); updateTime();
+    
     window.onload = () => {
         const m = document.getElementById('menu-btn'), s = document.getElementById('sidebar'), o = document.getElementById('overlay'), c = document.getElementById('close-btn');
         m.onclick = () => { s.classList.add('active'); o.classList.add('active'); };

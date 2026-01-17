@@ -10,10 +10,14 @@
         header { background-color: #0d47a1; color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .menu-button { background: none; border: 2px solid white; color: white; padding: 5px 15px; cursor: pointer; border-radius: 10px; font-weight: bold; }
         .logo h1 { margin: 0 0 0 15px; font-size: 20px; letter-spacing: 2px; }
+        
+        /* サイドバー設定 */
         .sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background-color: #ffffff; color: #333; transition: 0.3s; z-index: 1000; padding: 20px; box-sizing: border-box; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.2); }
         .sidebar.active { left: 0; }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 999; }
         .overlay.active { display: block; }
+        
+        /* 検索ボックス */
         .search-box { background: #e3f2fd; padding: 15px; border-radius: 15px; margin: 40px 0 20px 0; }
         .search-input-wrapper { position: relative; margin-bottom: 10px; }
         .search-box input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #bbdefb; box-sizing: border-box; outline: none; }
@@ -22,13 +26,17 @@
         .suggestion-item:hover { background-color: #f0f4f8; color: #0d47a1; }
         .search-btn { width: 100%; background: #2e7d32; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 5px; }
         #search-result { display: none; margin-top: 15px; padding: 15px; background: white; border-radius: 15px; border: 2px solid #0d47a1; }
+        
         .menu-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; font-weight: bold; border-radius: 10px; }
         .menu-item:hover { background: #f0f4f8; color: #0d47a1; }
+        
         .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
+        
         .status-bar { background: white; border: 2px solid #2e7d32; padding: 10px; margin-bottom: 25px; border-radius: 15px; }
         .ticker { background: #f1f8e9; overflow: hidden; white-space: nowrap; padding: 8px; border-radius: 10px; position: relative; }
         .ticker-text { display: inline-block; white-space: nowrap; padding-left: 100%; font-weight: bold; color: #1b5e20; line-height: 1.5; }
         @keyframes scroll-text { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+        
         .magazine-section { margin-top: 50px; position: relative; padding: 0 50px; }
         .slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: #e0e0e0; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
         #prev-btn { left: 0; }
@@ -49,6 +57,7 @@
     <div class="header-left"><button class="menu-button" id="menu-btn">≡ MENU</button><div class="logo"><h1>岩川県交通</h1></div></div>
     <div class="time-display" id="current-time">JST --:--:--</div>
 </header>
+
 <div class="sidebar" id="sidebar">
     <div class="search-box">
         <div style="font-weight:bold; margin-bottom:10px;">経路・運賃検索</div>
@@ -67,9 +76,13 @@
         </div>
     </div>
     <div class="menu-item" onclick="location.href='index.html'">■ HOME</div>
+    <div class="menu-item" onclick="alert('準備中')">■ 路線バス</div>
+    <div class="menu-item" onclick="alert('準備中')">■ 高速バス</div>
+    <div class="menu-item" onclick="alert('準備中')">■ 貸切バス</div>
     <div class="menu-item" onclick="location.href='newsfolder/news00003.html'">■ 求人情報</div>
     <div class="menu-item" id="close-btn">■ 閉じる ×</div>
 </div>
+
 <div class="container">
     <div class="status-bar" id="status-bar-box">
         <h3 style="margin:0 0 5px 0; color:#2e7d32; font-size: 16px;" id="status-label">運行状況</h3>
@@ -93,7 +106,6 @@
     let currentSliderIndex = 0;
 
     async function loadSiteData() {
-        // 各fetchを個別のtry-catchで囲み、一つがダメでも他が動くようにします
         // 1. 運行状況
         try {
             const res = await fetch('setting/config.json');
@@ -106,7 +118,7 @@
             }
         } catch (e) { console.error("Config error"); }
 
-        // 2. 検索
+        // 2. 検索 (search.jsonからデータを読み込む)
         try {
             const res = await fetch('setting/search.json');
             if (res.ok) {
@@ -115,7 +127,7 @@
             }
         } catch (e) { console.error("Search error"); }
 
-        // 3. 記事
+        // 3. おすすめ記事
         try {
             const res = await fetch('setting/articles.json');
             if (res.ok) {

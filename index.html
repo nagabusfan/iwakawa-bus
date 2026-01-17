@@ -12,13 +12,11 @@
         .menu-button { background: none; border: 2px solid white; color: white; padding: 5px 15px; cursor: pointer; border-radius: 10px; font-weight: bold; }
         .logo h1 { margin: 0 0 0 15px; font-size: 20px; letter-spacing: 2px; }
         
-        /* サイドバー */
         .sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background-color: #ffffff; color: #333; transition: 0.3s; z-index: 1000; padding: 20px; box-sizing: border-box; max-height: 100vh; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.2); }
         .sidebar.active { left: 0; }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 999; }
         .overlay.active { display: block; }
         
-        /* 検索ボックス */
         .search-box { background: #e3f2fd; padding: 15px; border-radius: 15px; margin: 40px 0 20px 0; }
         .search-input-wrapper { position: relative; margin-bottom: 10px; }
         .search-box input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #bbdefb; box-sizing: border-box; outline: none; }
@@ -31,33 +29,27 @@
         .menu-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; font-weight: bold; border-radius: 10px; }
         .menu-item:hover { background: #f0f4f8; color: #0d47a1; }
         
-        /* コンテンツエリア */
         .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
         
-        /* 運行状況（テロップ） */
         .status-bar { background: white; border: 2px solid #2e7d32; padding: 10px; margin-bottom: 25px; border-radius: 15px; transition: 0.3s; }
-        .ticker { background: #f1f8e9; overflow: hidden; white-space: nowrap; padding: 8px; border-radius: 10px; position: relative; transition: 0.3s; }
+        .ticker { background: #f1f8e9; overflow: hidden; white-space: nowrap; padding: 8px; border-radius: 10px; position: relative; }
         .ticker-text { display: inline-block; white-space: nowrap; padding-left: 100%; font-weight: bold; color: #1b5e20; line-height: 1.5; }
         @keyframes scroll-text { from { transform: translateX(0); } to { transform: translateX(-100%); } }
         
-        /* スライダー */
         .magazine-section { margin-top: 50px; position: relative; padding: 0 50px; }
-        .slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: #e0e0e0; color: #444; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
-        .slider-arrow:hover { background: #d0d0d0; color: #333; }
+        .slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: #e0e0e0; color: #444; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
         #prev-btn { left: 0; }
         #next-btn { right: 0; }
         .slider-container { overflow: hidden; border-radius: 20px; }
         .slider-wrapper { display: flex; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
         .article-card { min-width: calc(33.333% - 20px); margin: 10px; background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); cursor: pointer; transition: 0.4s; }
-        .article-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .article-card:hover { transform: translateY(-10px); }
         .article-img { height: 150px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; font-size: 50px; }
         .article-content { padding: 20px; }
-        .article-content h4 { margin: 0 0 10px 0; color: #222; font-size: 18px; font-weight: bold; line-height: 1.4; }
-        .article-content p { font-size: 14px; color: #666; line-height: 1.6; margin: 0; }
+        .article-content h4 { margin: 0 0 10px 0; color: #222; font-size: 18px; }
         
         .view-all-container { text-align: center; margin-top: 40px; }
-        .view-all-btn { display: inline-block; padding: 15px 40px; background-color: #0d47a1; color: white !important; text-decoration: none; border-radius: 50px; font-weight: bold; box-shadow: 0 5px 15px rgba(13, 71, 161, 0.3); transition: 0.3s; }
-        .view-all-btn:hover { background-color: #2e7d32; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(46, 125, 50, 0.4); }
+        .view-all-btn { display: inline-block; padding: 15px 40px; background-color: #0d47a1; color: white !important; text-decoration: none; border-radius: 50px; font-weight: bold; }
         
         footer { text-align: center; padding: 40px; color: #999; border-top: 1px solid #ddd; }
     </style>
@@ -128,19 +120,17 @@
 <footer>&copy; 2026 Iwakawa Prefectural Transport.</footer>
 
 <script>
-    // --- グローバル変数 ---
     let stopData = [];
     let distanceData = {};
-    let currentSliderIndex = 0;
     let articleCount = 0;
+    let currentSliderIndex = 0;
 
-    // --- データの読み込み (settingフォルダの中を探しに行きます) ---
     async function loadSiteData() {
+        // 1. 運行状況 (config.json)
         try {
-            // 1. config.json
-            const configRes = await fetch('setting/config.json');
-            if (configRes.ok) {
-                const config = await configRes.json();
+            const res = await fetch('setting/config.json');
+            if (res.ok) {
+                const config = await res.json();
                 const statusEl = document.getElementById('status-text');
                 statusEl.innerText = config.statusMessage;
                 document.getElementById('ticker-box').style.backgroundColor = config.statusBgColor;
@@ -149,18 +139,22 @@
                 document.getElementById('status-label').style.color = config.statusBorderColor;
                 statusEl.style.animation = `scroll-text ${config.statusMessage.length * 0.2 + 10}s linear infinite`;
             }
+        } catch (e) { console.error("Config error"); }
 
-            // 2. search.json (停留所データ)
-            const searchRes = await fetch('setting/search.json');
-            if (searchRes.ok) {
-                stopData = await searchRes.json();
+        // 2. 検索データ (search.json)
+        try {
+            const res = await fetch('setting/search.json');
+            if (res.ok) {
+                stopData = await res.json();
                 stopData.forEach(s => { distanceData[s.name] = s.dist; });
             }
+        } catch (e) { console.error("Search error"); }
 
-            // 3. articles.json (おすすめ記事)
-            const articlesRes = await fetch('setting/articles.json');
-            if (articlesRes.ok) {
-                const articles = await articlesRes.json();
+        // 3. おすすめ記事 (articles.json)
+        try {
+            const res = await fetch('setting/articles.json');
+            if (res.ok) {
+                const articles = await res.json();
                 const wrapper = document.getElementById('slider-wrapper');
                 articleCount = articles.length;
                 wrapper.innerHTML = '';
@@ -172,26 +166,28 @@
                     wrapper.appendChild(card);
                 });
             }
+        } catch (e) { console.error("Articles error"); }
 
-            // 4. news.json (ニュース)
-            const newsRes = await fetch('setting/news.json');
-            if (newsRes.ok) {
-                const newsData = await newsRes.json();
+        // 4. ニュース (news.json)
+        try {
+            const res = await fetch('setting/news.json');
+            if (res.ok) {
+                const newsData = await res.json();
                 const newsList = document.getElementById('news-list');
                 newsList.innerHTML = '';
-                newsData.slice(0, 3).forEach(d => {
+                newsData.forEach(d => {
                     const item = document.createElement('div');
-                    item.style = "background:white; padding:15px; margin-bottom:10px; border-radius:15px; border-left:4px solid #0d47a1;";
+                    item.style = "background:white; padding:15px; margin-bottom:10px; border-radius:15px; border-left:4px solid " + (d.tagColor || "#0d47a1") + ";";
                     item.innerHTML = `<span style="background:${d.tagColor}; color:white; padding:2px 6px; font-size:10px; border-radius:5px;">${d.tag}</span><a href="${d.url}" style="margin-left:10px; font-weight:bold; color:#333; text-decoration:none;">${d.title}</a>`;
                     newsList.appendChild(item);
                 });
             }
-        } catch (e) {
-            console.error("データの読み込みエラー:", e);
+        } catch (e) { 
+            document.getElementById('news-list').innerText = "データの読み込みに失敗しました。";
         }
     }
 
-    // --- 検索候補の表示 ---
+    // 検索予測
     function showSuggestions(type) {
         const input = document.getElementById(type + '-input');
         const list = document.getElementById(type + '-list');
@@ -199,13 +195,7 @@
         list.innerHTML = '';
         if (!word || stopData.length === 0) { list.style.display = 'none'; return; }
 
-        let matches = stopData.filter(stop => stop.name.includes(word) || stop.kana.includes(word));
-        matches.sort((a, b) => {
-            const aS = a.name.startsWith(word) || a.kana.startsWith(word);
-            const bS = b.name.startsWith(word) || b.kana.startsWith(word);
-            return (aS && !bS) ? -1 : (!aS && bS) ? 1 : 0;
-        });
-
+        let matches = stopData.filter(stop => stop.name.includes(word) || (stop.kana && stop.kana.includes(word)));
         if (matches.length > 0) {
             matches.forEach(stop => {
                 const div = document.createElement('div');
@@ -218,7 +208,7 @@
         } else { list.style.display = 'none'; }
     }
 
-    // --- 運賃検索実行 ---
+    // 運賃計算
     function searchRoute() {
         const start = document.getElementById('start-input').value.trim();
         const end = document.getElementById('end-input').value.trim();
@@ -232,7 +222,7 @@
         document.getElementById('search-result').style.display = "block";
     }
 
-    // --- スライダー制御 ---
+    // スライダー
     document.getElementById('next-btn').onclick = () => {
         currentSliderIndex = (currentSliderIndex >= articleCount - 3) ? 0 : currentSliderIndex + 1;
         document.getElementById('slider-wrapper').style.transform = `translateX(-${currentSliderIndex * 33.333}%)`;
@@ -242,7 +232,6 @@
         document.getElementById('slider-wrapper').style.transform = `translateX(-${currentSliderIndex * 33.333}%)`;
     };
 
-    // --- 時間表示とメニューの初期化 ---
     function updateTime() { document.getElementById('current-time').innerText = "JST " + new Date().toLocaleTimeString('ja-JP'); }
     setInterval(updateTime, 1000); updateTime();
 

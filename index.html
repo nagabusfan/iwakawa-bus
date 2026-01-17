@@ -6,38 +6,31 @@
     <title>岩川県交通 | 公式サイト (Roblox)</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* デザイン設定 */
         body { font-family: 'Noto Sans JP', sans-serif; margin: 0; padding: 0; background-color: #f3f0f9; color: #333; }
         header { background-color: #0d47a1; color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .menu-button { background: none; border: 2px solid white; color: white; padding: 5px 15px; cursor: pointer; border-radius: 10px; font-weight: bold; }
         .logo h1 { margin: 0 0 0 15px; font-size: 20px; letter-spacing: 2px; }
-        
         .sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background-color: #ffffff; color: #333; transition: 0.3s; z-index: 1000; padding: 20px; box-sizing: border-box; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.2); }
         .sidebar.active { left: 0; }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 999; }
         .overlay.active { display: block; }
-        
         .search-box { background: #e3f2fd; padding: 15px; border-radius: 15px; margin: 40px 0 20px 0; }
         .search-input-wrapper { position: relative; margin-bottom: 10px; }
         .search-box input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #bbdefb; box-sizing: border-box; outline: none; }
         .suggestion-list { position: absolute; top: 100%; left: 0; width: 100%; background: white; border-radius: 0 0 10px 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 1100; max-height: 200px; overflow-y: auto; display: none; }
-        .suggestion-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #eee; font-size: 14px; }
+        .suggestion-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #eee; font-size: 14px; text-align: left; }
         .suggestion-item:hover { background-color: #f0f4f8; color: #0d47a1; }
         .search-btn { width: 100%; background: #2e7d32; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 5px; }
         #search-result { display: none; margin-top: 15px; padding: 15px; background: white; border-radius: 15px; border: 2px solid #0d47a1; }
-        
         .menu-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; font-weight: bold; border-radius: 10px; }
         .menu-item:hover { background: #f0f4f8; color: #0d47a1; }
-        
         .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
-        
         .status-bar { background: white; border: 2px solid #2e7d32; padding: 10px; margin-bottom: 25px; border-radius: 15px; }
         .ticker { background: #f1f8e9; overflow: hidden; white-space: nowrap; padding: 8px; border-radius: 10px; position: relative; }
         .ticker-text { display: inline-block; white-space: nowrap; padding-left: 100%; font-weight: bold; color: #1b5e20; line-height: 1.5; }
         @keyframes scroll-text { from { transform: translateX(0); } to { transform: translateX(-100%); } }
-        
         .magazine-section { margin-top: 50px; position: relative; padding: 0 50px; }
-        .slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: #e0e0e0; color: #444; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
+        .slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: #e0e0e0; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
         #prev-btn { left: 0; }
         #next-btn { right: 0; }
         .slider-container { overflow: hidden; border-radius: 20px; }
@@ -45,27 +38,17 @@
         .article-card { min-width: calc(33.333% - 20px); margin: 10px; background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); cursor: pointer; text-align: center; }
         .article-img { height: 120px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; font-size: 40px; }
         .article-content { padding: 15px; }
-        .article-content h4 { margin: 0 0 5px 0; font-size: 16px; color: #0d47a1; }
-        .article-content p { font-size: 12px; color: #666; margin: 0; }
-
         .view-all-container { text-align: center; margin-top: 30px; }
         .view-all-btn { display: inline-block; padding: 12px 30px; background-color: #0d47a1; color: white; text-decoration: none; border-radius: 50px; font-weight: bold; }
-        
         footer { text-align: center; padding: 40px; color: #999; border-top: 1px solid #ddd; }
     </style>
 </head>
 <body>
-
 <div class="overlay" id="overlay"></div>
-
 <header>
-    <div class="header-left">
-        <button class="menu-button" id="menu-btn">≡ MENU</button>
-        <div class="logo"><h1>岩川県交通</h1></div>
-    </div>
+    <div class="header-left"><button class="menu-button" id="menu-btn">≡ MENU</button><div class="logo"><h1>岩川県交通</h1></div></div>
     <div class="time-display" id="current-time">JST --:--:--</div>
 </header>
-
 <div class="sidebar" id="sidebar">
     <div class="search-box">
         <div style="font-weight:bold; margin-bottom:10px;">経路・運賃検索</div>
@@ -79,43 +62,28 @@
         </div>
         <button class="search-btn" onclick="searchRoute()">検索する</button>
         <div id="search-result">
-            <div style="font-size:11px;">片道運賃</div>
-            <div id="res-fare" style="font-size:22px; font-weight:bold; color:#0d47a1;">--- 円</div>
+            <div style="font-size:11px;">片道運賃</div><div id="res-fare" style="font-size:22px; font-weight:bold; color:#0d47a1;">--- 円</div>
             <div style="font-size:11px; margin-top:5px;">区間距離: <span id="res-dist">---</span> km</div>
         </div>
     </div>
     <div class="menu-item" onclick="location.href='index.html'">■ HOME</div>
-    <div class="menu-item" onclick="alert('準備中')">■ 路線バス</div>
-    <div class="menu-item" onclick="alert('準備中')">■ 高速バス</div>
-    <div class="menu-item" onclick="alert('準備中')">■ 貸切バス</div>
     <div class="menu-item" onclick="location.href='newsfolder/news00003.html'">■ 求人情報</div>
     <div class="menu-item" id="close-btn">■ 閉じる ×</div>
 </div>
-
 <div class="container">
     <div class="status-bar" id="status-bar-box">
         <h3 style="margin:0 0 5px 0; color:#2e7d32; font-size: 16px;" id="status-label">運行状況</h3>
-        <div class="ticker" id="ticker-box">
-            <div class="ticker-text" id="status-text">データを読み込み中...</div>
-        </div>
+        <div class="ticker" id="ticker-box"><div class="ticker-text" id="status-text">読み込み中...</div></div>
     </div>
-
     <h3 style="border-left: 5px solid #0d47a1; padding-left:10px; color:#0d47a1;">新着情報</h3>
     <div id="news-list">読み込み中...</div>
-
     <div class="magazine-section">
         <h3 style="text-align:center; color:#0d47a1; font-weight: 900; font-size: 24px; margin-bottom: 30px;">おすすめコンテンツ</h3>
-        <button class="slider-arrow" id="prev-btn">◀</button>
-        <button class="slider-arrow" id="next-btn">▶</button>
-        <div class="slider-container">
-            <div class="slider-wrapper" id="slider-wrapper"></div>
-        </div>
-        <div class="view-all-container">
-            <a href="articles/list.html" class="view-all-btn">すべてのコンテンツを表示</a>
-        </div>
+        <button class="slider-arrow" id="prev-btn">◀</button><button class="slider-arrow" id="next-btn">▶</button>
+        <div class="slider-container"><div class="slider-wrapper" id="slider-wrapper"></div></div>
+        <div class="view-all-container"><a href="articles/list.html" class="view-all-btn">すべてのコンテンツを表示</a></div>
     </div>
 </div>
-
 <footer>&copy; 2026 Iwakawa Prefectural Transport.</footer>
 
 <script>
@@ -125,32 +93,33 @@
     let currentSliderIndex = 0;
 
     async function loadSiteData() {
-        // 全データを一気に読み込む
+        // 各fetchを個別のtry-catchで囲み、一つがダメでも他が動くようにします
+        // 1. 運行状況
         try {
-            // 1. 運行状況
-            const configRes = await fetch('setting/config.json');
-            if (configRes.ok) {
-                const config = await configRes.json();
+            const res = await fetch('setting/config.json');
+            if (res.ok) {
+                const config = await res.json();
                 document.getElementById('status-text').innerText = config.statusMessage;
                 document.getElementById('ticker-box').style.backgroundColor = config.statusBgColor;
                 document.getElementById('status-text').style.color = config.statusTextColor;
-                document.getElementById('status-bar-box').style.borderColor = config.statusBorderColor;
-                document.getElementById('status-label').style.color = config.statusBorderColor;
                 document.getElementById('status-text').style.animation = `scroll-text ${config.statusMessage.length * 0.2 + 10}s linear infinite`;
             }
+        } catch (e) { console.error("Config error"); }
 
-            // 2. 検索データ (ここでdistanceDataを作ります)
-            const searchRes = await fetch('setting/search.json');
-            if (searchRes.ok) {
-                stopData = await searchRes.json();
-                distanceData = {}; // 古いデータを消す
+        // 2. 検索
+        try {
+            const res = await fetch('setting/search.json');
+            if (res.ok) {
+                stopData = await res.json();
                 stopData.forEach(s => { distanceData[s.name] = s.dist; });
             }
+        } catch (e) { console.error("Search error"); }
 
-            // 3. 記事
-            const artRes = await fetch('setting/articles.json');
-            if (artRes.ok) {
-                const arts = await artRes.json();
+        // 3. 記事
+        try {
+            const res = await fetch('setting/articles.json');
+            if (res.ok) {
+                const arts = await res.json();
                 articleCount = arts.length;
                 const wrapper = document.getElementById('slider-wrapper');
                 wrapper.innerHTML = '';
@@ -158,35 +127,35 @@
                     const card = document.createElement('div');
                     card.className = 'article-card';
                     card.onclick = () => { location.href = a.url; };
-                    card.innerHTML = `<div class="article-img">${a.icon}</div><div class="article-content"><h4>${a.title}</h4><p>${a.desc}</p></div>`;
+                    card.innerHTML = `<div class="article-img">${a.icon}</div><div class="article-content"><h4>${a.title}</h4></div>`;
                     wrapper.appendChild(card);
                 });
             }
+        } catch (e) { console.error("Articles error"); }
 
-            // 4. ニュース
-            const newsRes = await fetch('setting/news.json');
-            if (newsRes.ok) {
-                const news = await newsRes.json();
+        // 4. ニュース
+        try {
+            const res = await fetch('setting/news.json');
+            if (res.ok) {
+                const news = await res.json();
                 const list = document.getElementById('news-list');
                 list.innerHTML = '';
-                news.slice(0, 3).forEach(n => {
+                news.forEach(n => {
                     const item = document.createElement('div');
                     item.style = "background:white; padding:15px; margin-bottom:10px; border-radius:15px; border-left:4px solid " + n.tagColor + ";";
                     item.innerHTML = `<span style="background:${n.tagColor}; color:white; padding:2px 6px; font-size:10px; border-radius:5px;">${n.tag}</span><a href="${n.url}" style="margin-left:10px; font-weight:bold; color:#333; text-decoration:none;">${n.title}</a>`;
                     list.appendChild(item);
                 });
             }
-        } catch (e) { console.error(e); }
+        } catch (e) { console.error("News error"); }
     }
 
-    // 検索予測の表示
     function showSuggestions(type) {
         const input = document.getElementById(type + '-input');
         const list = document.getElementById(type + '-list');
         const word = input.value.trim().toLowerCase();
         list.innerHTML = '';
         if (!word || stopData.length === 0) { list.style.display = 'none'; return; }
-
         let matches = stopData.filter(s => s.name.includes(word) || (s.kana && s.kana.includes(word)));
         if (matches.length > 0) {
             matches.forEach(s => {
@@ -200,12 +169,11 @@
         } else { list.style.display = 'none'; }
     }
 
-    // 運賃計算
     function searchRoute() {
         const s = document.getElementById('start-input').value.trim();
         const e = document.getElementById('end-input').value.trim();
         if (distanceData[s] === undefined || distanceData[e] === undefined || s === e) {
-            alert("停留所名をリストから選んで正しく入力してください"); return;
+            alert("正しい停留所名を入力またはリストから選択してください"); return;
         }
         const dist = Math.abs(distanceData[e] - distanceData[s]);
         const fare = 150 + (Math.round(dist) * 10);
@@ -214,7 +182,6 @@
         document.getElementById('search-result').style.display = "block";
     }
 
-    // スライダー
     document.getElementById('next-btn').onclick = () => {
         currentSliderIndex = (currentSliderIndex >= articleCount - 3) ? 0 : currentSliderIndex + 1;
         document.getElementById('slider-wrapper').style.transform = `translateX(-${currentSliderIndex * 33.333}%)`;
@@ -226,11 +193,10 @@
 
     function updateTime() { document.getElementById('current-time').innerText = "JST " + new Date().toLocaleTimeString('ja-JP'); }
     setInterval(updateTime, 1000); updateTime();
-
     window.onload = () => {
         const m = document.getElementById('menu-btn'), s = document.getElementById('sidebar'), o = document.getElementById('overlay'), c = document.getElementById('close-btn');
         m.onclick = () => { s.classList.add('active'); o.classList.add('active'); };
-        c.onclick = o.onclick = () => { s.classList.remove('active'); o.classList.remove('active'); };
+        o.onclick = c.onclick = () => { s.classList.remove('active'); o.classList.remove('active'); };
         loadSiteData();
     };
 </script>

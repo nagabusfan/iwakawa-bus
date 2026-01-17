@@ -6,19 +6,15 @@
     <title>岩川県交通 | 公式サイト (Roblox)</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* --- デザイン設定 --- */
+        /* デザイン部分は社長こだわりのスタイルを維持 */
         body { font-family: 'Noto Sans JP', sans-serif; margin: 0; padding: 0; background-color: #f3f0f9; color: #333; }
         header { background-color: #0d47a1; color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .menu-button { background: none; border: 2px solid white; color: white; padding: 5px 15px; cursor: pointer; border-radius: 10px; font-weight: bold; }
         .logo h1 { margin: 0 0 0 15px; font-size: 20px; letter-spacing: 2px; }
-        
-        /* サイドバー */
         .sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background-color: #ffffff; color: #333; transition: 0.3s; z-index: 1000; padding: 20px; box-sizing: border-box; max-height: 100vh; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.2); }
         .sidebar.active { left: 0; }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 999; }
         .overlay.active { display: block; }
-        
-        /* 検索ボックス */
         .search-box { background: #e3f2fd; padding: 15px; border-radius: 15px; margin: 40px 0 20px 0; }
         .search-input-wrapper { position: relative; margin-bottom: 10px; }
         .search-box input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #bbdefb; box-sizing: border-box; outline: none; }
@@ -27,20 +23,13 @@
         .suggestion-item:hover { background-color: #f0f4f8; color: #0d47a1; }
         .search-btn { width: 100%; background: #2e7d32; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 5px; }
         #search-result { display: none; margin-top: 15px; padding: 15px; background: white; border-radius: 15px; border: 2px solid #0d47a1; }
-        
         .menu-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; font-weight: bold; border-radius: 10px; }
         .menu-item:hover { background: #f0f4f8; color: #0d47a1; }
-        
-        /* コンテンツエリア */
         .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
-        
-        /* 運行状況（テロップ） */
         .status-bar { background: white; border: 2px solid #2e7d32; padding: 10px; margin-bottom: 25px; border-radius: 15px; transition: 0.3s; }
         .ticker { background: #f1f8e9; overflow: hidden; white-space: nowrap; padding: 8px; border-radius: 10px; position: relative; transition: 0.3s; }
         .ticker-text { display: inline-block; white-space: nowrap; padding-left: 100%; font-weight: bold; color: #1b5e20; line-height: 1.5; }
         @keyframes scroll-text { from { transform: translateX(0); } to { transform: translateX(-100%); } }
-        
-        /* スライダー */
         .magazine-section { margin-top: 50px; position: relative; padding: 0 50px; }
         .slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: #e0e0e0; color: #444; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
         .slider-arrow:hover { background: #d0d0d0; color: #333; }
@@ -54,23 +43,17 @@
         .article-content { padding: 20px; }
         .article-content h4 { margin: 0 0 10px 0; color: #222; font-size: 18px; font-weight: bold; line-height: 1.4; }
         .article-content p { font-size: 14px; color: #666; line-height: 1.6; margin: 0; }
-        
         .view-all-container { text-align: center; margin-top: 40px; }
         .view-all-btn { display: inline-block; padding: 15px 40px; background-color: #0d47a1; color: white !important; text-decoration: none; border-radius: 50px; font-weight: bold; box-shadow: 0 5px 15px rgba(13, 71, 161, 0.3); transition: 0.3s; }
         .view-all-btn:hover { background-color: #2e7d32; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(46, 125, 50, 0.4); }
-        
         footer { text-align: center; padding: 40px; color: #999; border-top: 1px solid #ddd; }
     </style>
 </head>
 <body>
 
 <div class="overlay" id="overlay"></div>
-
 <header>
-    <div class="header-left">
-        <button class="menu-button" id="menu-btn">≡ MENU</button>
-        <div class="logo"><h1>岩川県交通</h1></div>
-    </div>
+    <div class="header-left"><button class="menu-button" id="menu-btn">≡ MENU</button><div class="logo"><h1>岩川県交通</h1></div></div>
     <div class="time-display" id="current-time">JST --:--:--</div>
 </header>
 
@@ -87,8 +70,7 @@
         </div>
         <button class="search-btn" onclick="searchRoute()">検索する</button>
         <div id="search-result">
-            <div style="font-size:11px;">片道運賃</div>
-            <div id="res-fare" style="font-size:22px; font-weight:bold; color:#0d47a1;">--- 円</div>
+            <div style="font-size:11px;">片道運賃</div><div id="res-fare" style="font-size:22px; font-weight:bold; color:#0d47a1;">--- 円</div>
             <div style="font-size:11px; margin-top:5px;">区間距離: <span id="res-dist">---</span> km</div>
         </div>
     </div>
@@ -103,109 +85,96 @@
 <div class="container">
     <div class="status-bar" id="status-bar-box">
         <h3 style="margin:0 0 5px 0; color:#2e7d32; font-size: 16px;" id="status-label">運行状況</h3>
-        <div class="ticker" id="ticker-box">
-            <div class="ticker-text" id="status-text">データを読み込み中...</div>
-        </div>
+        <div class="ticker" id="ticker-box"><div class="ticker-text" id="status-text">データを読み込み中...</div></div>
     </div>
-
     <h3 style="border-left: 5px solid #0d47a1; padding-left:10px; color:#0d47a1;">新着情報</h3>
     <div id="news-list">読み込み中...</div>
-
     <div class="magazine-section">
         <h3 style="text-align:center; color:#0d47a1; font-weight: 900; font-size: 24px; margin-bottom: 30px;">おすすめコンテンツ</h3>
         <button class="slider-arrow" id="prev-btn">◀</button>
         <button class="slider-arrow" id="next-btn">▶</button>
-        <div class="slider-container">
-            <div class="slider-wrapper" id="slider-wrapper">
-                </div>
-        </div>
-        <div class="view-all-container">
-            <a href="articles/list.html" class="view-all-btn">すべてのコンテンツを表示</a>
-        </div>
+        <div class="slider-container"><div class="slider-wrapper" id="slider-wrapper"></div></div>
+        <div class="view-all-container"><a href="articles/list.html" class="view-all-btn">すべてのコンテンツを表示</a></div>
     </div>
 </div>
-
 <footer>&copy; 2026 Iwakawa Prefectural Transport.</footer>
 
 <script>
-    // --- グローバル変数 ---
     let stopData = [];
     let distanceData = {};
-    let currentSliderIndex = 0;
     let articleCount = 0;
+    let currentSliderIndex = 0;
 
-    // --- JSONデータの読み込み ---
     async function loadSiteData() {
         try {
-            // 1. config.json（運行状況・色）の読み込み
+            // 1. config.json
             const configRes = await fetch('config.json');
-            const config = await configRes.json();
-            
-            const statusEl = document.getElementById('status-text');
-            const tickerEl = document.getElementById('ticker-box');
-            const statusBarEl = document.getElementById('status-bar-box');
-            const statusLabel = document.getElementById('status-label');
+            if (configRes.ok) {
+                const config = await configRes.json();
+                const statusEl = document.getElementById('status-text');
+                statusEl.innerText = config.statusMessage;
+                document.getElementById('ticker-box').style.backgroundColor = config.statusBgColor;
+                statusEl.style.color = config.statusTextColor;
+                document.getElementById('status-bar-box').style.borderColor = config.statusBorderColor;
+                document.getElementById('status-label').style.color = config.statusBorderColor;
+                statusEl.style.animation = `scroll-text ${config.statusMessage.length * 0.2 + 10}s linear infinite`;
+            }
 
-            statusEl.innerText = config.statusMessage;
-            tickerEl.style.backgroundColor = config.statusBgColor;
-            statusEl.style.color = config.statusTextColor;
-            statusBarEl.style.borderColor = config.statusBorderColor;
-            statusLabel.style.color = config.statusBorderColor;
+            // 2. search.json (ここを修正しました！)
+            const searchRes = await fetch('search.json');
+            if (searchRes.ok) {
+                stopData = await searchRes.json();
+                stopData.forEach(s => { distanceData[s.name] = s.dist; });
+            } else {
+                console.error("search.jsonが見つかりません");
+            }
 
-            const duration = config.statusMessage.length * 0.2 + 10;
-            statusEl.style.animation = `scroll-text ${duration}s linear infinite`;
-
-            // 2. stops.json（停留所）の読み込み
-            const stopsRes = await fetch('stops.json');
-            stopData = await stopsRes.json();
-            stopData.forEach(s => { distanceData[s.name] = s.dist; });
-
-            // 3. articles.json（スライダー）の読み込み
+            // 3. articles.json
             const articlesRes = await fetch('articles.json');
-            const articles = await articlesRes.json();
-            const wrapper = document.getElementById('slider-wrapper');
-            articleCount = articles.length;
-            articles.forEach(art => {
-                const card = document.createElement('div');
-                card.className = 'article-card';
-                card.onclick = () => { location.href = art.url; };
-                card.innerHTML = `
-                    <div class="article-img">${art.icon}</div>
-                    <div class="article-content"><h4>${art.title}</h4><p>${art.desc}</p></div>
-                `;
-                wrapper.appendChild(card);
-            });
+            if (articlesRes.ok) {
+                const articles = await articlesRes.json();
+                const wrapper = document.getElementById('slider-wrapper');
+                articleCount = articles.length;
+                articles.forEach(art => {
+                    const card = document.createElement('div');
+                    card.className = 'article-card';
+                    card.onclick = () => { location.href = art.url; };
+                    card.innerHTML = `<div class="article-img">${art.icon}</div><div class="article-content"><h4>${art.title}</h4><p>${art.desc}</p></div>`;
+                    wrapper.appendChild(card);
+                });
+            }
 
-            // 4. news.json（ニュース）の読み込み
+            // 4. news.json
             const newsRes = await fetch('news.json');
-            const newsData = await newsRes.json();
-            const newsList = document.getElementById('news-list');
-            newsList.innerHTML = '';
-            newsData.slice(0, 3).forEach(d => {
-                const item = document.createElement('div');
-                item.style = "background:white; padding:15px; margin-bottom:10px; border-radius:15px; border-left:4px solid #0d47a1;";
-                item.innerHTML = `<span style="background:${d.tagColor}; color:white; padding:2px 6px; font-size:10px; border-radius:5px;">${d.tag}</span><a href="${d.url}" style="margin-left:10px; font-weight:bold; color:#333; text-decoration:none;">${d.title}</a>`;
-                newsList.appendChild(item);
-            });
-
-        } catch (e) { console.error("データの読み込みに失敗:", e); }
+            if (newsRes.ok) {
+                const newsData = await newsRes.json();
+                const newsList = document.getElementById('news-list');
+                newsList.innerHTML = '';
+                newsData.slice(0, 3).forEach(d => {
+                    const item = document.createElement('div');
+                    item.style = "background:white; padding:15px; margin-bottom:10px; border-radius:15px; border-left:4px solid #0d47a1;";
+                    item.innerHTML = `<span style="background:${d.tagColor}; color:white; padding:2px 6px; font-size:10px; border-radius:5px;">${d.tag}</span><a href="${d.url}" style="margin-left:10px; font-weight:bold; color:#333; text-decoration:none;">${d.title}</a>`;
+                    newsList.appendChild(item);
+                });
+            }
+        } catch (e) {
+            console.error("JSON読み込みエラー:", e);
+        }
     }
 
-    // --- 検索候補の表示（先頭一致優先） ---
+    // 予測入力
     function showSuggestions(type) {
         const input = document.getElementById(type + '-input');
         const list = document.getElementById(type + '-list');
-        const word = input.value.toLowerCase();
+        const word = input.value.trim().toLowerCase();
         list.innerHTML = '';
-        if (!word) { list.style.display = 'none'; return; }
+        if (!word || stopData.length === 0) { list.style.display = 'none'; return; }
 
         let matches = stopData.filter(stop => stop.name.includes(word) || stop.kana.includes(word));
         matches.sort((a, b) => {
-            const aStart = a.name.startsWith(word) || a.kana.startsWith(word);
-            const bStart = b.name.startsWith(word) || b.kana.startsWith(word);
-            if (aStart && !bStart) return -1;
-            if (!aStart && bStart) return 1;
-            return 0;
+            const aS = a.name.startsWith(word) || a.kana.startsWith(word);
+            const bS = b.name.startsWith(word) || b.kana.startsWith(word);
+            return (aS && !bS) ? -1 : (!aS && bS) ? 1 : 0;
         });
 
         if (matches.length > 0) {
@@ -220,12 +189,12 @@
         } else { list.style.display = 'none'; }
     }
 
-    // --- 運賃検索実行 ---
+    // 運賃検索
     function searchRoute() {
-        const start = document.getElementById('start-input').value;
-        const end = document.getElementById('end-input').value;
-        if (!distanceData.hasOwnProperty(start) || !distanceData.hasOwnProperty(end) || start === end) {
-            alert("停留所名を正しく選択してください"); return;
+        const start = document.getElementById('start-input').value.trim();
+        const end = document.getElementById('end-input').value.trim();
+        if (distanceData[start] === undefined || distanceData[end] === undefined || start === end) {
+            alert("停留所名をリストから選んで正しく入力してください"); return;
         }
         const dist = Math.abs(distanceData[end] - distanceData[start]);
         const fare = 150 + (Math.round(dist) * 10);
@@ -234,17 +203,10 @@
         document.getElementById('search-result').style.display = "block";
     }
 
-    // --- スライダー制御 ---
-    document.getElementById('next-btn').onclick = () => {
-        currentSliderIndex = (currentSliderIndex >= articleCount - 3) ? 0 : currentSliderIndex + 1;
-        document.getElementById('slider-wrapper').style.transform = `translateX(-${currentSliderIndex * 33.333}%)`;
-    };
-    document.getElementById('prev-btn').onclick = () => {
-        currentSliderIndex = (currentSliderIndex <= 0) ? Math.max(0, articleCount - 3) : currentSliderIndex - 1;
-        document.getElementById('slider-wrapper').style.transform = `translateX(-${currentSliderIndex * 33.333}%)`;
-    };
+    // スライダー
+    document.getElementById('next-btn').onclick = () => { currentSliderIndex = (currentSliderIndex >= articleCount - 3) ? 0 : currentSliderIndex + 1; document.getElementById('slider-wrapper').style.transform = `translateX(-${currentSliderIndex * 33.333}%)`; };
+    document.getElementById('prev-btn').onclick = () => { currentSliderIndex = (currentSliderIndex <= 0) ? Math.max(0, articleCount - 3) : currentSliderIndex - 1; document.getElementById('slider-wrapper').style.transform = `translateX(-${currentSliderIndex * 33.333}%)`; };
 
-    // --- 時間更新 & 初期設定 ---
     function updateTime() { document.getElementById('current-time').innerText = "JST " + new Date().toLocaleTimeString('ja-JP'); }
     setInterval(updateTime, 1000); updateTime();
 
@@ -252,16 +214,9 @@
         const m = document.getElementById('menu-btn'), s = document.getElementById('sidebar'), o = document.getElementById('overlay'), c = document.getElementById('close-btn');
         m.onclick = () => { s.classList.add('active'); o.classList.add('active'); };
         c.onclick = o.onclick = () => { s.classList.remove('active'); o.classList.remove('active'); };
-        loadSiteData(); // ここで全データを読み込む
+        loadSiteData();
     };
-
-    // リスト外クリックで予測候補を閉じる
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.search-input-wrapper')) {
-            document.getElementById('start-list').style.display = 'none';
-            document.getElementById('end-list').style.display = 'none';
-        }
-    });
+    document.addEventListener('click', (e) => { if (!e.target.closest('.search-input-wrapper')) { document.getElementById('start-list').style.display = 'none'; document.getElementById('end-list').style.display = 'none'; } });
 </script>
 </body>
 </html>

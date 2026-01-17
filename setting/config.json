@@ -1,3 +1,6 @@
 {
-  "statusMessage": "【平常運行】 全線で平常通り運行しております。今日も岩川県交通をご利用いただきありがとうございます。"
+  "statusMessage": "【平常運行】 全線で平常通り運行しております。今日も岩川県交通をご利用いただきありがとうございます。",
+  "statusBgColor": "#f1f8e9",
+  "statusTextColor": "#1b5e20",
+  "statusBorderColor": "#2e7d32"
 }

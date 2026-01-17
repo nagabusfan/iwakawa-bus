@@ -56,7 +56,7 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 1100;
             max-height: 200px; overflow-y: auto; display: none;
         }
-        .suggestion-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #eee; font-size: 14px; }
+        .suggestion-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #eee; font-size: 14px; text-align: left; }
         .suggestion-item:hover { background-color: #f0f4f8; color: #0d47a1; }
 
         .search-btn {
@@ -86,21 +86,26 @@
         .magazine-section { margin-top: 50px; position: relative; padding: 0 50px; }
         .slider-arrow {
             position: absolute; top: 50%; transform: translateY(-50%);
-            background: #9e9e9e; color: white; border: none;
-            width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 10;
+            background: #e0e0e0; color: #444; border: none;
+            width: 45px; height: 45px; border-radius: 50%; cursor: pointer; z-index: 10;
+            display: flex; align-items: center; justify-content: center; transition: 0.3s;
         }
+        .slider-arrow:hover { background: #d0d0d0; color: #333; }
         #prev-btn { left: 0; }
         #next-btn { right: 0; }
-        .slider-container { overflow: hidden; border-radius: 15px; }
-        .slider-wrapper { display: flex; transition: transform 0.5s ease-in-out; }
+        .slider-container { overflow: hidden; border-radius: 20px; }
+        .slider-wrapper { display: flex; transition: transform 0.5s cubic-bezier(0.2, 1, 0.3, 1); }
         .article-card {
             min-width: calc(33.333% - 20px); margin: 10px;
-            background: white; border-radius: 15px; overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer;
+            background: white; border-radius: 25px; overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05); cursor: pointer;
+            transition: 0.4s;
         }
-        .article-img { height: 120px; background: #e0e0e0; display: flex; align-items: center; justify-content: center; font-size: 40px; }
-        .article-content { padding: 15px; }
-        .article-content h4 { margin: 0; color: #0d47a1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .article-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .article-img { height: 150px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; font-size: 50px; }
+        .article-content { padding: 20px; }
+        .article-content h4 { margin: 0 0 10px 0; color: #222; font-size: 18px; font-weight: bold; line-height: 1.4; }
+        .article-content p { font-size: 14px; color: #666; line-height: 1.6; margin: 0; }
 
         /* すべてのコンテンツを表示ボタン */
         .view-all-container { text-align: center; margin-top: 30px; }
@@ -169,7 +174,7 @@
     <div id="news-list">読み込み中...</div>
 
     <div class="magazine-section">
-        <h3 style="text-align:center; color:#0d47a1;">おすすめコンテンツ</h3>
+        <h3 style="text-align:center; color:#0d47a1; font-weight: 900; font-size: 24px; margin-bottom: 30px;">おすすめコンテンツ</h3>
         <button class="slider-arrow" id="prev-btn">◀</button>
         <button class="slider-arrow" id="next-btn">▶</button>
         <div class="slider-container">
@@ -188,11 +193,11 @@
                 </div>
                 <div class="article-card" onclick="location.href='articles/safety.html'">
                     <div class="article-img">🛡️</div>
-                    <div class="article-content"><h4>安全運行のため、心がけていること</h4><p>安心・安全な運行のために</p></div>
+                    <div class="article-content"><h4>安全運行への心がけ</h4><p>安心・安全な運行のために日々努力しています。</p></div>
                 </div>
                 <div class="article-card" onclick="location.href='articles/history.html'">
                     <div class="article-img">📂</div>
-                    <div class="article-content"><h4>岩川交通のあゆみ</h4><p></p>岩川県交通過去を知ろう！</p></div>
+                    <div class="article-content"><h4>岩川交通のあゆみ</h4><p>岩川県交通の過去を知ろう！</p></div>
                 </div>
             </div>
         </div>
@@ -205,25 +210,42 @@
 <footer>&copy; 2026 Iwakawa Prefectural Transport.</footer>
 
 <script>
-    // --- データ定義 ---
-    const distanceData = { "horioka-st": 0, "yuuhibashi": 0.3, "asagasase": 0.9, "ryohara": 1.2, "tatezakabashi": 1.6, "yabetate": 2.2, "shimodou": 2.8, "shimodou-2": 3.2, "ujikobashi": 3.8 };
-    const stopNames = ["堀岡駅", "夕日橋", "朝顔瀬橋", "両原", "建坂橋", "矢部館", "下堂", "下堂二丁目", "宇治子橋"];
-    const nameToId = { "堀岡駅": "horioka-st", "夕日橋": "yuuhibashi", "朝顔瀬橋": "asagasase", "両原": "ryohara", "建坂橋": "tatezakabashi", "矢部館": "yabetate", "下堂": "shimodou", "下堂二丁目": "shimodou-2", "宇治子橋": "ujikobashi" };
+    // --- データ定義（読み仮名を追加してひらがな検索対応！） ---
+    const stopData = [
+        { id: "horioka-st", name: "堀岡駅", kana: "ほりおかえき" },
+        { id: "yuuhibashi", name: "夕日橋", kana: "ゆうひばし" },
+        { id: "asagasase", name: "朝顔瀬橋", kana: "あさがせばし" },
+        { id: "ryohara", name: "両原", kana: "りょうはら" },
+        { id: "tatezakabashi", name: "建坂橋", kana: "たてざかばし" },
+        { id: "yabetate", name: "矢部館", kana: "やべたて" },
+        { id: "shimodou", name: "下堂", kana: "しもどう" },
+        { id: "shimodou-2", name: "下堂二丁目", kana: "しもどうにちょうめ" },
+        { id: "ujikobashi", name: "宇治子橋", kana: "うじこばし" }
+    ];
 
-    // --- 予測入力（オートコンプリート） ---
+    const distanceData = { "horioka-st": 0, "yuuhibashi": 0.3, "asagasase": 0.9, "ryohara": 1.2, "tatezakabashi": 1.6, "yabetate": 2.2, "shimodou": 2.8, "shimodou-2": 3.2, "ujikobashi": 3.8 };
+    const nameToId = {};
+    stopData.forEach(s => { nameToId[s.name] = s.id; });
+
+    // --- 予測入力（ひらがな・漢字 両対応） ---
     function showSuggestions(type) {
         const input = document.getElementById(type + '-input');
         const list = document.getElementById(type + '-list');
-        const word = input.value;
+        const word = input.value.toLowerCase();
         list.innerHTML = '';
         if (!word) { list.style.display = 'none'; return; }
-        const matches = stopNames.filter(name => name.includes(word));
+
+        // 漢字、またはひらがなのどっちかに含まれていればOK
+        const matches = stopData.filter(stop => 
+            stop.name.includes(word) || stop.kana.includes(word)
+        );
+
         if (matches.length > 0) {
-            matches.forEach(name => {
+            matches.forEach(stop => {
                 const div = document.createElement('div');
                 div.className = 'suggestion-item';
-                div.innerText = name;
-                div.onclick = () => { input.value = name; list.style.display = 'none'; };
+                div.innerText = stop.name;
+                div.onclick = () => { input.value = stop.name; list.style.display = 'none'; };
                 list.appendChild(div);
             });
             list.style.display = 'block';
@@ -232,8 +254,11 @@
 
     // --- 検索実行 ---
     function searchRoute() {
-        const start = nameToId[document.getElementById('start-input').value];
-        const end = nameToId[document.getElementById('end-input').value];
+        const startValue = document.getElementById('start-input').value;
+        const endValue = document.getElementById('end-input').value;
+        const start = nameToId[startValue];
+        const end = nameToId[endValue];
+
         if (!start || !end || start === end) { alert("停留所名を正しく入力・選択してください"); return; }
         const dist = Math.abs(distanceData[end] - distanceData[start]);
         const fare = 150 + (Math.round(dist) * 10);

@@ -94,7 +94,13 @@
         #prev-btn { left: 0; }
         #next-btn { right: 0; }
         .slider-container { overflow: hidden; border-radius: 20px; }
-        .slider-wrapper { display: flex; transition: transform 0.5s cubic-bezier(0.2, 1, 0.3, 1); }
+        
+        /* アニメーション速度を 0.8s にして滑らかに修正 */
+        .slider-wrapper { 
+            display: flex; 
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); 
+        }
+
         .article-card {
             min-width: calc(33.333% - 20px); margin: 10px;
             background: white; border-radius: 25px; overflow: hidden;
@@ -106,6 +112,25 @@
         .article-content { padding: 20px; }
         .article-content h4 { margin: 0 0 10px 0; color: #222; font-size: 18px; font-weight: bold; line-height: 1.4; }
         .article-content p { font-size: 14px; color: #666; line-height: 1.6; margin: 0; }
+
+        /* 「すべてのコンテンツを表示」ボタンのデザイン修正 */
+        .view-all-container { text-align: center; margin-top: 40px; }
+        .view-all-btn {
+            display: inline-block; 
+            padding: 15px 40px; 
+            background-color: #0d47a1;
+            color: white !important; /* 文字色を白に固定 */
+            text-decoration: none; 
+            border-radius: 50px;
+            font-weight: bold; 
+            box-shadow: 0 5px 15px rgba(13, 71, 161, 0.3);
+            transition: 0.3s;
+        }
+        .view-all-btn:hover { 
+            background-color: #2e7d32; 
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 125, 50, 0.4);
+        }
 
         footer { text-align: center; padding: 40px; color: #999; border-top: 1px solid #ddd; }
     </style>
@@ -201,7 +226,7 @@
 <footer>&copy; 2026 Iwakawa Prefectural Transport.</footer>
 
 <script>
-    // --- データ定義（読み仮名を追加） ---
+    // --- データ定義 ---
     const stopData = [
         { id: "horioka-st", name: "堀岡駅", kana: "ほりおかえき" },
         { id: "yuuhibashi", name: "夕日橋", kana: "ゆうひばし" },
@@ -218,7 +243,7 @@
     const nameToId = {};
     stopData.forEach(s => { nameToId[s.name] = s.id; });
 
-    // --- 予測入力（ひらがな対応 ＋ 先頭一致優先） ---
+    // --- 予測入力（先頭一致優先） ---
     function showSuggestions(type) {
         const input = document.getElementById(type + '-input');
         const list = document.getElementById(type + '-list');
@@ -226,12 +251,10 @@
         list.innerHTML = '';
         if (!word) { list.style.display = 'none'; return; }
 
-        // 文字が含まれるものをフィルタリング
         let matches = stopData.filter(stop => 
             stop.name.includes(word) || stop.kana.includes(word)
         );
 
-        // 並び替え：入力した文字から「始まる」ものを優先
         matches.sort((a, b) => {
             const aStart = a.name.startsWith(word) || a.kana.startsWith(word);
             const bStart = b.name.startsWith(word) || b.kana.startsWith(word);
@@ -267,11 +290,17 @@
         document.getElementById('search-result').style.display = "block";
     }
 
-    // --- スライダー制御 ---
+    // --- スライダー制御（アニメーションの計算を修正） ---
     let current = 0;
     const wrapper = document.getElementById('slider-wrapper');
-    document.getElementById('next-btn').onclick = () => { current = (current >= 2) ? 0 : current + 1; wrapper.style.transform = `translateX(-${current * 33.333}%)`; };
-    document.getElementById('prev-btn').onclick = () => { current = (current <= 0) ? 2 : current - 1; wrapper.style.transform = `translateX(-${current * 33.333}%)`; };
+    document.getElementById('next-btn').onclick = () => { 
+        current = (current >= 2) ? 0 : current + 1; 
+        wrapper.style.transform = `translateX(-${current * 33.333}%)`; 
+    };
+    document.getElementById('prev-btn').onclick = () => { 
+        current = (current <= 0) ? 2 : current - 1; 
+        wrapper.style.transform = `translateX(-${current * 33.333}%)`; 
+    };
 
     // --- 基本機能 ---
     function updateTime() { document.getElementById('current-time').innerText = "JST " + new Date().toLocaleTimeString('ja-JP'); }

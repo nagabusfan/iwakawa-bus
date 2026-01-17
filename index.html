@@ -6,13 +6,13 @@
     <title>岩川県交通 | 公式サイト (Roblox)</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* --- デザイン設定 --- */
+        /* デザイン設定 */
         body { font-family: 'Noto Sans JP', sans-serif; margin: 0; padding: 0; background-color: #f3f0f9; color: #333; }
         header { background-color: #0d47a1; color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .menu-button { background: none; border: 2px solid white; color: white; padding: 5px 15px; cursor: pointer; border-radius: 10px; font-weight: bold; }
         .logo h1 { margin: 0 0 0 15px; font-size: 20px; letter-spacing: 2px; }
         
-        .sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background-color: #ffffff; color: #333; transition: 0.3s; z-index: 1000; padding: 20px; box-sizing: border-box; max-height: 100vh; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.2); }
+        .sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background-color: #ffffff; color: #333; transition: 0.3s; z-index: 1000; padding: 20px; box-sizing: border-box; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.2); }
         .sidebar.active { left: 0; }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 999; }
         .overlay.active { display: block; }
@@ -21,7 +21,7 @@
         .search-input-wrapper { position: relative; margin-bottom: 10px; }
         .search-box input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #bbdefb; box-sizing: border-box; outline: none; }
         .suggestion-list { position: absolute; top: 100%; left: 0; width: 100%; background: white; border-radius: 0 0 10px 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 1100; max-height: 200px; overflow-y: auto; display: none; }
-        .suggestion-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #eee; font-size: 14px; text-align: left; }
+        .suggestion-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #eee; font-size: 14px; }
         .suggestion-item:hover { background-color: #f0f4f8; color: #0d47a1; }
         .search-btn { width: 100%; background: #2e7d32; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 5px; }
         #search-result { display: none; margin-top: 15px; padding: 15px; background: white; border-radius: 15px; border: 2px solid #0d47a1; }
@@ -31,25 +31,25 @@
         
         .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
         
-        .status-bar { background: white; border: 2px solid #2e7d32; padding: 10px; margin-bottom: 25px; border-radius: 15px; transition: 0.3s; }
+        .status-bar { background: white; border: 2px solid #2e7d32; padding: 10px; margin-bottom: 25px; border-radius: 15px; }
         .ticker { background: #f1f8e9; overflow: hidden; white-space: nowrap; padding: 8px; border-radius: 10px; position: relative; }
         .ticker-text { display: inline-block; white-space: nowrap; padding-left: 100%; font-weight: bold; color: #1b5e20; line-height: 1.5; }
         @keyframes scroll-text { from { transform: translateX(0); } to { transform: translateX(-100%); } }
         
         .magazine-section { margin-top: 50px; position: relative; padding: 0 50px; }
-        .slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: #e0e0e0; color: #444; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
+        .slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: #e0e0e0; color: #444; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
         #prev-btn { left: 0; }
         #next-btn { right: 0; }
         .slider-container { overflow: hidden; border-radius: 20px; }
-        .slider-wrapper { display: flex; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
-        .article-card { min-width: calc(33.333% - 20px); margin: 10px; background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); cursor: pointer; transition: 0.4s; }
-        .article-card:hover { transform: translateY(-10px); }
-        .article-img { height: 150px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; font-size: 50px; }
-        .article-content { padding: 20px; }
-        .article-content h4 { margin: 0 0 10px 0; color: #222; font-size: 18px; }
-        
-        .view-all-container { text-align: center; margin-top: 40px; }
-        .view-all-btn { display: inline-block; padding: 15px 40px; background-color: #0d47a1; color: white !important; text-decoration: none; border-radius: 50px; font-weight: bold; }
+        .slider-wrapper { display: flex; transition: transform 0.5s ease; }
+        .article-card { min-width: calc(33.333% - 20px); margin: 10px; background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); cursor: pointer; text-align: center; }
+        .article-img { height: 120px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; font-size: 40px; }
+        .article-content { padding: 15px; }
+        .article-content h4 { margin: 0 0 5px 0; font-size: 16px; color: #0d47a1; }
+        .article-content p { font-size: 12px; color: #666; margin: 0; }
+
+        .view-all-container { text-align: center; margin-top: 30px; }
+        .view-all-btn { display: inline-block; padding: 12px 30px; background-color: #0d47a1; color: white; text-decoration: none; border-radius: 50px; font-weight: bold; }
         
         footer { text-align: center; padding: 40px; color: #999; border-top: 1px solid #ddd; }
     </style>
@@ -108,8 +108,7 @@
         <button class="slider-arrow" id="prev-btn">◀</button>
         <button class="slider-arrow" id="next-btn">▶</button>
         <div class="slider-container">
-            <div class="slider-wrapper" id="slider-wrapper">
-                </div>
+            <div class="slider-wrapper" id="slider-wrapper"></div>
         </div>
         <div class="view-all-container">
             <a href="articles/list.html" class="view-all-btn">すべてのコンテンツを表示</a>
@@ -126,68 +125,61 @@
     let currentSliderIndex = 0;
 
     async function loadSiteData() {
-        // 1. 運行状況 (config.json)
+        // 全データを一気に読み込む
         try {
-            const res = await fetch('setting/config.json');
-            if (res.ok) {
-                const config = await res.json();
-                const statusEl = document.getElementById('status-text');
-                statusEl.innerText = config.statusMessage;
+            // 1. 運行状況
+            const configRes = await fetch('setting/config.json');
+            if (configRes.ok) {
+                const config = await configRes.json();
+                document.getElementById('status-text').innerText = config.statusMessage;
                 document.getElementById('ticker-box').style.backgroundColor = config.statusBgColor;
-                statusEl.style.color = config.statusTextColor;
+                document.getElementById('status-text').style.color = config.statusTextColor;
                 document.getElementById('status-bar-box').style.borderColor = config.statusBorderColor;
                 document.getElementById('status-label').style.color = config.statusBorderColor;
-                statusEl.style.animation = `scroll-text ${config.statusMessage.length * 0.2 + 10}s linear infinite`;
+                document.getElementById('status-text').style.animation = `scroll-text ${config.statusMessage.length * 0.2 + 10}s linear infinite`;
             }
-        } catch (e) { console.error("Config error"); }
 
-        // 2. 検索データ (search.json)
-        try {
-            const res = await fetch('setting/search.json');
-            if (res.ok) {
-                stopData = await res.json();
+            // 2. 検索データ (ここでdistanceDataを作ります)
+            const searchRes = await fetch('setting/search.json');
+            if (searchRes.ok) {
+                stopData = await searchRes.json();
+                distanceData = {}; // 古いデータを消す
                 stopData.forEach(s => { distanceData[s.name] = s.dist; });
             }
-        } catch (e) { console.error("Search error"); }
 
-        // 3. おすすめ記事 (articles.json)
-        try {
-            const res = await fetch('setting/articles.json');
-            if (res.ok) {
-                const articles = await res.json();
+            // 3. 記事
+            const artRes = await fetch('setting/articles.json');
+            if (artRes.ok) {
+                const arts = await artRes.json();
+                articleCount = arts.length;
                 const wrapper = document.getElementById('slider-wrapper');
-                articleCount = articles.length;
                 wrapper.innerHTML = '';
-                articles.forEach(art => {
+                arts.forEach(a => {
                     const card = document.createElement('div');
                     card.className = 'article-card';
-                    card.onclick = () => { location.href = art.url; };
-                    card.innerHTML = `<div class="article-img">${art.icon}</div><div class="article-content"><h4>${art.title}</h4><p>${art.desc}</p></div>`;
+                    card.onclick = () => { location.href = a.url; };
+                    card.innerHTML = `<div class="article-img">${a.icon}</div><div class="article-content"><h4>${a.title}</h4><p>${a.desc}</p></div>`;
                     wrapper.appendChild(card);
                 });
             }
-        } catch (e) { console.error("Articles error"); }
 
-        // 4. ニュース (news.json)
-        try {
-            const res = await fetch('setting/news.json');
-            if (res.ok) {
-                const newsData = await res.json();
-                const newsList = document.getElementById('news-list');
-                newsList.innerHTML = '';
-                newsData.forEach(d => {
+            // 4. ニュース
+            const newsRes = await fetch('setting/news.json');
+            if (newsRes.ok) {
+                const news = await newsRes.json();
+                const list = document.getElementById('news-list');
+                list.innerHTML = '';
+                news.slice(0, 3).forEach(n => {
                     const item = document.createElement('div');
-                    item.style = "background:white; padding:15px; margin-bottom:10px; border-radius:15px; border-left:4px solid " + (d.tagColor || "#0d47a1") + ";";
-                    item.innerHTML = `<span style="background:${d.tagColor}; color:white; padding:2px 6px; font-size:10px; border-radius:5px;">${d.tag}</span><a href="${d.url}" style="margin-left:10px; font-weight:bold; color:#333; text-decoration:none;">${d.title}</a>`;
-                    newsList.appendChild(item);
+                    item.style = "background:white; padding:15px; margin-bottom:10px; border-radius:15px; border-left:4px solid " + n.tagColor + ";";
+                    item.innerHTML = `<span style="background:${n.tagColor}; color:white; padding:2px 6px; font-size:10px; border-radius:5px;">${n.tag}</span><a href="${n.url}" style="margin-left:10px; font-weight:bold; color:#333; text-decoration:none;">${n.title}</a>`;
+                    list.appendChild(item);
                 });
             }
-        } catch (e) { 
-            document.getElementById('news-list').innerText = "データの読み込みに失敗しました。";
-        }
+        } catch (e) { console.error(e); }
     }
 
-    // 検索予測
+    // 検索予測の表示
     function showSuggestions(type) {
         const input = document.getElementById(type + '-input');
         const list = document.getElementById(type + '-list');
@@ -195,13 +187,13 @@
         list.innerHTML = '';
         if (!word || stopData.length === 0) { list.style.display = 'none'; return; }
 
-        let matches = stopData.filter(stop => stop.name.includes(word) || (stop.kana && stop.kana.includes(word)));
+        let matches = stopData.filter(s => s.name.includes(word) || (s.kana && s.kana.includes(word)));
         if (matches.length > 0) {
-            matches.forEach(stop => {
+            matches.forEach(s => {
                 const div = document.createElement('div');
                 div.className = 'suggestion-item';
-                div.innerText = stop.name;
-                div.onclick = () => { input.value = stop.name; list.style.display = 'none'; };
+                div.innerText = s.name;
+                div.onclick = () => { input.value = s.name; list.style.display = 'none'; };
                 list.appendChild(div);
             });
             list.style.display = 'block';
@@ -210,12 +202,12 @@
 
     // 運賃計算
     function searchRoute() {
-        const start = document.getElementById('start-input').value.trim();
-        const end = document.getElementById('end-input').value.trim();
-        if (distanceData[start] === undefined || distanceData[end] === undefined || start === end) {
+        const s = document.getElementById('start-input').value.trim();
+        const e = document.getElementById('end-input').value.trim();
+        if (distanceData[s] === undefined || distanceData[e] === undefined || s === e) {
             alert("停留所名をリストから選んで正しく入力してください"); return;
         }
-        const dist = Math.abs(distanceData[end] - distanceData[start]);
+        const dist = Math.abs(distanceData[e] - distanceData[s]);
         const fare = 150 + (Math.round(dist) * 10);
         document.getElementById('res-fare').innerText = fare + " 円";
         document.getElementById('res-dist').innerText = dist.toFixed(1);
@@ -241,13 +233,6 @@
         c.onclick = o.onclick = () => { s.classList.remove('active'); o.classList.remove('active'); };
         loadSiteData();
     };
-
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.search-input-wrapper')) {
-            document.getElementById('start-list').style.display = 'none';
-            document.getElementById('end-list').style.display = 'none';
-        }
-    });
 </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>岩川県交通 | 公式サイト</title>
+    <title>岩川県交通</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Noto Sans JP', sans-serif; margin: 0; padding: 0; background-color: #f3f0f9; color: #333; }
@@ -44,8 +44,6 @@
         .article-img { height: 120px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; font-size: 40px; }
         .article-content { padding: 15px; }
         
-        .view-all-container { text-align: center; margin-top: 30px; }
-        .view-all-btn { display: inline-block; padding: 12px 30px; background-color: #0d47a1; color: white; text-decoration: none; border-radius: 50px; font-weight: bold; }
         footer { text-align: center; padding: 40px; color: #999; border-top: 1px solid #ddd; }
     </style>
 </head>
@@ -75,7 +73,6 @@
     </div>
     <div class="menu-item" onclick="location.href='index.html'">■ HOME</div>
     <div class="menu-item" onclick="alert('準備中')">■ 路線バス</div>
-    <div class="menu-item" onclick="alert('準備中')">■ 高速バス</div>
     <div class="menu-item" onclick="location.href='newsfolder/news00003.html'">■ 求人情報</div>
     <div class="menu-item" id="close-btn">■ 閉じる ×</div>
 </div>
@@ -95,9 +92,6 @@
         <div class="slider-container">
             <div class="slider-wrapper" id="slider-wrapper"></div>
         </div>
-        <div class="view-all-container">
-            <a href="articles/list.html" class="view-all-btn">すべてのコンテンツを表示</a>
-        </div>
     </div>
 </div>
 
@@ -109,32 +103,25 @@
     let currentSliderIndex = 0;
 
     async function loadSiteData() {
-        // 運行状況
+        // 運行状況、記事、ニュースの読み込み（前回同様）
         try {
-            const res = await fetch('setting/config.json');
-            if (res.ok) {
-                const config = await res.json();
+            const resConfig = await fetch('setting/config.json');
+            if (resConfig.ok) {
+                const config = await resConfig.json();
                 document.getElementById('status-text').innerText = config.statusMessage;
                 document.getElementById('ticker-box').style.backgroundColor = config.statusBgColor;
                 document.getElementById('status-text').style.color = config.statusTextColor;
                 document.getElementById('status-text').style.animation = `scroll-text ${config.statusMessage.length * 0.2 + 10}s linear infinite`;
             }
-        } catch (e) { console.error("Config error"); }
 
-        // 検索用データ
-        try {
-            const res = await fetch('setting/search.json');
-            if (res.ok) { stopData = await res.json(); }
-        } catch (e) { console.error("Search data error"); }
+            const resSearch = await fetch('setting/search.json');
+            if (resSearch.ok) { stopData = await resSearch.json(); }
 
-        // おすすめ記事
-        try {
-            const res = await fetch('setting/articles.json');
-            if (res.ok) {
-                const arts = await res.json();
+            const resArts = await fetch('setting/articles.json');
+            if (resArts.ok) {
+                const arts = await resArts.json();
                 articleCount = arts.length;
                 const wrapper = document.getElementById('slider-wrapper');
-                wrapper.innerHTML = '';
                 arts.forEach(a => {
                     const card = document.createElement('div');
                     card.className = 'article-card';
@@ -143,13 +130,10 @@
                     wrapper.appendChild(card);
                 });
             }
-        } catch (e) { console.error("Articles error"); }
 
-        // ニュース
-        try {
-            const res = await fetch('setting/news.json');
-            if (res.ok) {
-                const news = await res.json();
+            const resNews = await fetch('setting/news.json');
+            if (resNews.ok) {
+                const news = await resNews.json();
                 const list = document.getElementById('news-list');
                 list.innerHTML = '';
                 news.forEach(n => {
@@ -159,16 +143,22 @@
                     list.appendChild(item);
                 });
             }
-        } catch (e) { console.error("News error"); }
+        } catch (e) { console.error("Load failed", e); }
     }
 
+    // search.json内の「name」または「kana」の両方から検索するロジック
     function showSuggestions(type) {
         const input = document.getElementById(type + '-input');
         const list = document.getElementById(type + '-list');
         const word = input.value.trim().toLowerCase();
         list.innerHTML = '';
         if (!word || stopData.length === 0) { list.style.display = 'none'; return; }
-        let matches = stopData.filter(s => s.name.includes(word));
+
+        let matches = stopData.filter(s => {
+            // name（漢字）か kana（読み）に word が含まれているか
+            return s.name.includes(word) || (s.kana && s.kana.includes(word));
+        });
+
         if (matches.length > 0) {
             matches.forEach(s => {
                 const div = document.createElement('div');
@@ -181,17 +171,15 @@
         } else { list.style.display = 'none'; }
     }
 
-    // 社長のシステムへ飛ばす関数
     function searchRoute() {
         const s = document.getElementById('start-input').value.trim();
         const e = document.getElementById('end-input').value.trim();
         if (!s || !e || s === e) { alert("正しい駅名を入力してください"); return; }
-
-        // 社長のユーザー名 nagabusfan を使用
         const searchUrl = "https://nagabusfan.github.io/iwakawa-district-bus-search/";
         window.location.href = `${searchUrl}?from=${encodeURIComponent(s)}&to=${encodeURIComponent(e)}`;
     }
 
+    // スライダー・時計制御
     document.getElementById('next-btn').onclick = () => {
         currentSliderIndex = (currentSliderIndex >= articleCount - 3) ? 0 : currentSliderIndex + 1;
         document.getElementById('slider-wrapper').style.transform = `translateX(-${currentSliderIndex * 33.333}%)`;
@@ -200,7 +188,6 @@
         currentSliderIndex = (currentSliderIndex <= 0) ? Math.max(0, articleCount - 3) : currentSliderIndex - 1;
         document.getElementById('slider-wrapper').style.transform = `translateX(-${currentSliderIndex * 33.333}%)`;
     };
-
     function updateTime() { document.getElementById('current-time').innerText = "JST " + new Date().toLocaleTimeString('ja-JP'); }
     setInterval(updateTime, 1000); updateTime();
     
